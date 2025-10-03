@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  lint-and-test:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pylint black isort
+
+      - name: Check code formatting with black
+        run: black --check --diff .
+        continue-on-error: true
+
+      - name: Check import sorting with isort
+        run: isort --check-only --diff .
+        continue-on-error: true
+
+      - name: Lint with pylint
+        run: pylint main.py --disable=C0114,C0116,W0703,R0912,R0915
+        continue-on-error: true
+
+      - name: Docker build test
+        run: docker build -t bicameral-alerts:test .
+
+      - name: Run basic tests
+        run: |
+          # Test that the script at least imports without errors
+          python -c "import main; print('✓ main.py imports successfully')"
+        env:
+          AWS_REGION: us-east-1
+
+      - name: Summary
+        run: |
+          echo "✅ CI checks completed"
+          echo "Docker image built successfully"
+          echo "Python imports validated"
+
