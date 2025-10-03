@@ -8,33 +8,80 @@ Complete guide to deploy the bicameral-alerts service to AWS ECS using GitHub Ac
 - GitHub repository: `bicameral-alerts`
 - Terraform infrastructure deployed (creates SQS queue, ECR repo, ECS service)
 
-## 1. GitHub Secrets Setup
+## 1. GitHub OIDC + IAM Role Setup
 
-Add these secrets to your GitHub repository (Settings → Secrets and variables → Actions):
+### Step 1: Create GitHub OIDC Provider in AWS (One-time setup)
+
+If you haven't already set this up for your AWS account:
+
+```bash
+aws iam create-open-id-connect-provider \
+  --url https://token.actions.githubusercontent.com \
+  --client-id-list sts.amazonaws.com \
+  --thumbprint-list 6938fd4d98bab03faadb97b34396831e3780aea1
+```
+
+### Step 2: Create IAM Role for GitHub Actions
+
+```bash
+# Save trust policy
+cat > github-actions-trust-policy.json << 'EOF'
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::YOUR_ACCOUNT_ID:oidc-provider/token.actions.githubusercontent.com"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+        },
+        "StringLike": {
+          "token.actions.githubusercontent.com:sub": "repo:awalmsley-azerta/bicameral-alerts:*"
+        }
+      }
+    }
+  ]
+}
+EOF
+
+# Replace YOUR_ACCOUNT_ID with your AWS account ID
+AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+sed -i '' "s/YOUR_ACCOUNT_ID/$AWS_ACCOUNT_ID/g" github-actions-trust-policy.json
+
+# Create the role
+aws iam create-role \
+  --role-name github-actions-bicameral-alerts \
+  --assume-role-policy-document file://github-actions-trust-policy.json \
+  --description "Role for GitHub Actions to deploy bicameral-alerts"
+
+# Attach required policies
+aws iam attach-role-policy \
+  --role-name github-actions-bicameral-alerts \
+  --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser
+
+aws iam attach-role-policy \
+  --role-name github-actions-bicameral-alerts \
+  --policy-arn arn:aws:iam::aws:policy/AmazonECS_FullAccess
+
+# Get the role ARN (you'll need this for GitHub Secrets)
+aws iam get-role \
+  --role-name github-actions-bicameral-alerts \
+  --query Role.Arn --output text
+```
+
+### Step 3: Add GitHub Secret
+
+Add this secret to your GitHub repository (Settings → Secrets and variables → Actions):
 
 | Secret Name | Description | Example |
 |-------------|-------------|---------|
-| `AWS_ACCESS_KEY_ID` | AWS IAM access key | `AKIA...` |
-| `AWS_SECRET_ACCESS_KEY` | AWS IAM secret key | `wJalrXUtn...` |
+| `AWS_ROLE_TO_ASSUME` | IAM Role ARN for OIDC | `arn:aws:iam::123456789012:role/github-actions-bicameral-alerts` |
 
-### Creating IAM User for GitHub Actions
-
-```bash
-# Create IAM user
-aws iam create-user --user-name github-actions-bicameral-alerts
-
-# Attach required policies
-aws iam attach-user-policy \
-  --user-name github-actions-bicameral-alerts \
-  --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser
-
-aws iam attach-user-policy \
-  --user-name github-actions-bicameral-alerts \
-  --policy-arn arn:aws:iam::aws:policy/AmazonECS_FullAccess
-
-# Create access key
-aws iam create-access-key --user-name github-actions-bicameral-alerts
-```
+**That's it!** No access keys needed. GitHub Actions will use OIDC to assume the role.
 
 ## 2. Verify Workflow Configuration
 
