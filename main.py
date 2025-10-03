@@ -44,6 +44,18 @@ def sqs_client():
     return boto3.client("sqs", region_name=os.getenv("AWS_REGION", "us-east-1"))
 
 
+def _slugify_for_s3(value: str, max_length: int = 80) -> str:
+    """Slugify a string for use in S3 keys or dictionary lookups."""
+    import re
+    v = (value or "").strip().lower()
+    v = re.sub(r"\s+", "-", v)
+    v = re.sub(r"[^a-z0-9\-_.]", "", v)
+    v = re.sub(r"-+", "-", v).strip("-._")
+    if len(v) > max_length:
+        v = v[:max_length].rstrip("-._")
+    return v or "session"
+
+
 def parse_s3_uri(uri: str) -> tuple[str, str]:
     """Parse s3://bucket/key into (bucket, key)."""
     if not uri.startswith("s3://"):
@@ -75,24 +87,32 @@ def fetch_s3_text(s3_uri: str) -> Optional[str]:
         return None
 
 
-def load_keywords() -> Set[str]:
+def load_keywords() -> dict:
     """Load keywords from environment variable or file.
     
     Keywords can be provided as:
     1. ALERT_KEYWORDS env var (comma-separated, case-insensitive)
-    2. ALERT_KEYWORDS_FILE env var pointing to a JSON file with {"keywords": [...]}
-    """
-    keywords: Set[str] = set()
+    2. ALERT_KEYWORDS_FILE env var pointing to a JSON file with structured keywords
     
-    # From environment variable
+    Returns dict with structure:
+    {
+        "global": ["keyword1", "keyword2"],
+        "commissions": {
+            "commission-name": ["keyword3", "keyword4"]
+        }
+    }
+    """
+    result = {"global": set(), "commissions": {}}
+    
+    # From environment variable (treated as global keywords)
     keywords_env = os.getenv("ALERT_KEYWORDS", "").strip()
     if keywords_env:
         for kw in keywords_env.split(","):
             kw = kw.strip().lower()
             if kw:
-                keywords.add(kw)
+                result["global"].add(kw)
     
-    # From file (local or S3)
+    # From file (local or S3 - supports structured format)
     keywords_file = os.getenv("ALERT_KEYWORDS_FILE", "").strip()
     if keywords_file:
         try:
@@ -104,20 +124,42 @@ def load_keywords() -> Set[str]:
                 with open(keywords_file, "r", encoding="utf-8") as f:
                     data = json.load(f)
             
-            if isinstance(data, dict) and "keywords" in data:
-                for kw in data["keywords"]:
-                    kw = str(kw).strip().lower()
-                    if kw:
-                        keywords.add(kw)
+            # Support new structured format: {"global": [...], "commissions": {...}}
+            if isinstance(data, dict):
+                # Load global keywords
+                if "global" in data:
+                    for kw in data["global"]:
+                        kw = str(kw).strip().lower()
+                        if kw:
+                            result["global"].add(kw)
+                
+                # Load commission-specific keywords
+                if "commissions" in data and isinstance(data["commissions"], dict):
+                    for commission, kw_list in data["commissions"].items():
+                        commission_key = str(commission).strip().lower()
+                        result["commissions"][commission_key] = set()
+                        for kw in kw_list:
+                            kw = str(kw).strip().lower()
+                            if kw:
+                                result["commissions"][commission_key].add(kw)
+                
+                # Backward compatibility: support old format {"keywords": [...]}
+                if "keywords" in data and "global" not in data:
+                    for kw in data["keywords"]:
+                        kw = str(kw).strip().lower()
+                        if kw:
+                            result["global"].add(kw)
+            
+            # Backward compatibility: support simple list format
             elif isinstance(data, list):
                 for kw in data:
                     kw = str(kw).strip().lower()
                     if kw:
-                        keywords.add(kw)
+                        result["global"].add(kw)
         except Exception as e:
             logger.warning(f"Failed to load keywords from file {keywords_file}: {e}")
     
-    return keywords
+    return result
 
 
 def check_keywords(text: str, keywords: Set[str]) -> List[str]:
@@ -140,16 +182,36 @@ def check_keywords(text: str, keywords: Set[str]) -> List[str]:
     return matches
 
 
-def process_analysis_event(event: dict, keywords: Set[str]) -> None:
+def process_analysis_event(event: dict, keywords_config: dict) -> None:
     """Process a single analysis completion event.
     
     Checks both transcript and analysis for keywords and prints alerts.
+    Uses both global keywords and commission-specific keywords if available.
     """
     run_id = event.get("run_id", "unknown")
     source = event.get("source_type", "unknown")
+    metadata = event.get("event_metadata", {})
+    committee = metadata.get("committee") or metadata.get("title") or ""
     
     if not MINIMAL_LOGS:
-        logger.info(f"Processing run_id={run_id} source={source}")
+        logger.info(f"Processing run_id={run_id} source={source} committee={committee}")
+    
+    # Build combined keyword set: global + commission-specific
+    keywords_to_check: Set[str] = set(keywords_config.get("global", set()))
+    
+    # Add commission-specific keywords if available
+    if committee:
+        committee_slug = _slugify_for_s3(committee)
+        if committee_slug in keywords_config.get("commissions", {}):
+            commission_keywords = keywords_config["commissions"][committee_slug]
+            keywords_to_check.update(commission_keywords)
+            if not MINIMAL_LOGS:
+                logger.debug(f"Added {len(commission_keywords)} commission-specific keywords for '{committee_slug}'")
+    
+    if not keywords_to_check:
+        if not MINIMAL_LOGS:
+            logger.debug(f"No keywords to check for run_id={run_id}")
+        return
     
     # Extract S3 URIs
     s3_info = event.get("s3", {})
@@ -169,7 +231,7 @@ def process_analysis_event(event: dict, keywords: Set[str]) -> None:
             logger.debug(f"Fetching transcript: {transcript_uri}")
         transcript_text = fetch_s3_text(transcript_uri)
         if transcript_text:
-            matches = check_keywords(transcript_text, keywords)
+            matches = check_keywords(transcript_text, keywords_to_check)
             if matches:
                 all_matches.update(matches)
                 match_locations.append("transcript")
@@ -182,7 +244,7 @@ def process_analysis_event(event: dict, keywords: Set[str]) -> None:
             logger.debug(f"Fetching analysis: {analysis_html_uri}")
         analysis_text = fetch_s3_text(analysis_html_uri)
         if analysis_text:
-            matches = check_keywords(analysis_text, keywords)
+            matches = check_keywords(analysis_text, keywords_to_check)
             if matches:
                 all_matches.update(matches)
                 match_locations.append("analysis")
@@ -233,15 +295,20 @@ def consume_loop():
         logger.error("boto3 not available")
         sys.exit(1)
     
-    # Load keywords
-    keywords = load_keywords()
-    if not keywords:
+    # Load keywords configuration
+    keywords_config = load_keywords()
+    global_count = len(keywords_config.get("global", set()))
+    commission_count = len(keywords_config.get("commissions", {}))
+    
+    if not global_count and not commission_count:
         logger.warning("No keywords configured. Set ALERT_KEYWORDS or ALERT_KEYWORDS_FILE.")
         logger.warning("Service will run but no alerts will be generated.")
     else:
-        logger.info(f"Loaded {len(keywords)} keyword(s) for monitoring")
+        logger.info(f"Loaded {global_count} global keyword(s) and {commission_count} commission-specific keyword set(s)")
         if not MINIMAL_LOGS:
-            logger.debug(f"Keywords: {sorted(keywords)}")
+            logger.debug(f"Global keywords: {sorted(keywords_config.get('global', set()))}")
+            for comm, kws in keywords_config.get("commissions", {}).items():
+                logger.debug(f"Commission '{comm}': {sorted(kws)}")
     
     vis_timeout = int(os.getenv("SQS_VISIBILITY_TIMEOUT_SECONDS", "300") or "300")
     sqs = sqs_client()
@@ -277,7 +344,7 @@ def consume_loop():
                 
                 try:
                     event = json.loads(body)
-                    process_analysis_event(event, keywords)
+                    process_analysis_event(event, keywords_config)
                     
                     # Delete message after successful processing
                     sqs.delete_message(QueueUrl=queue_url, ReceiptHandle=receipt)
@@ -304,8 +371,9 @@ def main():
     test_file = os.getenv("TEST_FILE")
     if test_file:
         logger.info(f"Running in TEST mode with file: {test_file}")
-        keywords = load_keywords()
-        logger.info(f"Keywords: {sorted(keywords)}")
+        keywords_config = load_keywords()
+        logger.info(f"Global keywords: {sorted(keywords_config.get('global', set()))}")
+        logger.info(f"Commission keywords: {list(keywords_config.get('commissions', {}).keys())}")
         
         # Create mock event
         event = {
@@ -315,7 +383,7 @@ def main():
             "s3": {"transcript": test_file},
             "analysis_html_s3": test_file,
         }
-        process_analysis_event(event, keywords)
+        process_analysis_event(event, keywords_config)
         return
     
     # Normal operation
