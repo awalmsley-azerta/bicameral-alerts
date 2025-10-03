@@ -112,7 +112,7 @@ def load_keywords() -> dict:
             if kw:
                 result["global"].add(kw)
     
-    # From file (local or S3 - supports structured format)
+    # From file (local, S3, or SSM - supports structured format)
     keywords_file = os.getenv("ALERT_KEYWORDS_FILE", "").strip()
     if keywords_file:
         try:
@@ -120,6 +120,14 @@ def load_keywords() -> dict:
                 content = fetch_s3_text(keywords_file)
                 if content:
                     data = json.loads(content)
+            elif keywords_file.startswith("arn:aws:ssm:") or keywords_file.startswith("/"):
+                # SSM Parameter (ARN or parameter name)
+                import boto3
+                ssm = boto3.client("ssm", region_name=os.getenv("AWS_REGION", "us-east-1"))
+                param_name = keywords_file.split("parameter")[-1] if "parameter" in keywords_file else keywords_file
+                response = ssm.get_parameter(Name=param_name)
+                content = response["Parameter"]["Value"]
+                data = json.loads(content)
             else:
                 with open(keywords_file, "r", encoding="utf-8") as f:
                     data = json.load(f)
