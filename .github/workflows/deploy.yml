@@ -10,7 +10,7 @@ env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: bicameral/alerts
   ECS_SERVICE: bicameral-alerts
-  ECS_CLUSTER: bicameral-cluster
+  ECS_CLUSTER: bicameral-prod-cluster
   CONTAINER_NAME: alerts
 
 jobs:
