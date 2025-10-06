@@ -1,0 +1,36 @@
+{
+  "global": [
+    "codelco",
+    "enap",
+    "banco central",
+    "litio",
+    "cobre"
+  ],
+  "commissions": {
+    "hacienda": [
+      "presupuesto",
+      "impuestos",
+      "deuda",
+      "tesoro",
+      "fisco"
+    ],
+    "mineria": [
+      "litio",
+      "cobre",
+      "codelco",
+      "royalty",
+      "sernageomin"
+    ],
+    "medio-ambiente": [
+      "cambio climatico",
+      "agua",
+      "glaciares",
+      "biodiversidad"
+    ],
+    "constitucion": [
+      "reforma",
+      "plebiscito",
+      "derechos fundamentales"
+    ]
+  }
+}

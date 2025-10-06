@@ -45,9 +45,18 @@ def sqs_client():
 
 
 def _slugify_for_s3(value: str, max_length: int = 80) -> str:
-    """Slugify a string for use in S3 keys or dictionary lookups."""
+    """Slugify a string for use in S3 keys or dictionary lookups.
+    
+    IMPORTANT: This must match the analyzer's _slugify_for_s3 exactly
+    so that commission names are normalized identically for keyword matching.
+    """
     import re
+    import unicodedata
     v = (value or "").strip().lower()
+    # Normalize unicode characters (NFD = decompose accented chars)
+    # Then filter out combining marks to get base ASCII characters
+    v = unicodedata.normalize('NFD', v)
+    v = ''.join(c for c in v if unicodedata.category(c) != 'Mn')
     v = re.sub(r"\s+", "-", v)
     v = re.sub(r"[^a-z0-9\-_.]", "", v)
     v = re.sub(r"-+", "-", v).strip("-._")
