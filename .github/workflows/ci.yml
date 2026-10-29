@@ -51,6 +51,11 @@ jobs:
         env:
           AWS_REGION: us-east-1
 
+      - name: Test the alertas matcher package
+        run: |
+          pip install pytest
+          python -m pytest -q tests
+
       - name: Summary
         run: |
           echo "✅ CI checks completed"

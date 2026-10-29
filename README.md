@@ -1,5 +1,31 @@
 # Bicameral Alerts Service
 
+## `alertas`: the shared matcher (step 0 of the shared alerts service)
+
+`alertas/` is the one implementation of alert matching that analyse, the citation
+and boletín scrapers, live and the webapp preview each carry today. It has pure
+functions and no dependencies: content and one site's watchlists go in, and
+`bicameral_notifications` rows come out (same columns and messages as now), each
+with the `(user_id, regla, objetivo)` key the service will deduplicate on. See the
+design, *Shared Alerts Service*.
+
+- `alertas.texto`: folding, `exact`/`contains`, excerpts, counts, boletín variants.
+- `alertas.reglas`: `alertas_sesion`, `alertas_citacion`, `alertas_movimiento`, `alertas_turno`.
+  Boletín alerts are unified: every follower gets both movements and mentions.
+
+`tests/golden/esperado.json` is what the producers write today for `tests/casos.py`.
+Re-record it from their `origin/main` when one of them changes its matching:
+
+```bash
+python scripts/grabar_golden.py --repos /path/to/folder/with/the/repos
+```
+
+```bash
+python -m pytest -q tests
+```
+
+The service below (`main.py`, the SQS prototype) is unchanged by this package.
+
 Real-time keyword monitoring for Chilean legislative transcripts and analyses.
 
 ## Overview

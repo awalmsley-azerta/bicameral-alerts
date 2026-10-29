@@ -1,0 +1,767 @@
+{
+ "fuentes": {
+  "bicameral-analyse": "2e5198c",
+  "bicameral-live": "6eac989",
+  "bicameral-scrapers": "7e669d9"
+ },
+ "ref": "origin/main",
+ "hoy": "2026-10-29",
+ "sesiones": {
+  "101": [
+   {
+    "user_id": 1,
+    "keyword_id": 1,
+    "type": "session",
+    "related_id": 101,
+    "chamber": "camara",
+    "message": "Palabra clave 'reforma' encontrada en nueva sesión — Cámara de Diputados (mencionada 12 veces)\nMateria: «Proyecto de ley de **Reforma** de Mercado de Capitales y Financiamiento de la Casa Propia, boletín 18.643 (urgencia: suma)»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 101,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 2,
+    "keyword_id": 2,
+    "type": "session",
+    "related_id": 101,
+    "chamber": "camara",
+    "message": "Palabra clave 'mercado de capitales' encontrada en nueva sesión — Cámara de Diputados (mencionada 7 veces)\nMateria: «Proyecto de ley de Reforma de **Mercado de Capitales** y Financiamiento de la Casa Propia, boletín 18.643 (urgencia: suma)»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 101,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 1,
+    "keyword_id": 9,
+    "type": "session",
+    "related_id": 101,
+    "chamber": "camara",
+    "message": "Palabra clave 'sesion' encontrada en nueva sesión — Cámara de Diputados (mencionada 2 veces)\nAnálisis: «La secretaria de la comisión: Indicó que se comunicó el reemplazo del diputado Boris Barrera por la diputada Irací Hasler para esta **sesión**.»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 101,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 2,
+    "keyword_id": 13,
+    "type": "session",
+    "related_id": 101,
+    "chamber": "camara",
+    "message": "Palabra clave 'urgencia' encontrada en nueva sesión — Cámara de Diputados (mencionada 2 veces)\nMateria: «Proyecto de ley de Reforma de Mercado de Capitales y Financiamiento de la Casa Propia, boletín 18.643 (**urgencia**: suma)»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 101,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 3,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 101,
+    "chamber": "camara",
+    "message": "Boletín 18643-05 mencionado en sesión — Cámara de Diputados\nBoletín: «**18643-05**»",
+    "boletin": "18643-05",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 101,
+    "target_chamber": "camara",
+    "target_boletin": "18643-05"
+   }
+  ],
+  "102": [
+   {
+    "user_id": 1,
+    "keyword_id": 1,
+    "type": "session",
+    "related_id": 102,
+    "chamber": "senate",
+    "message": "Palabra clave 'reforma' encontrada en nueva sesión — Senado (mencionada 4 veces)\nTranscripción: «Recordó que la **reforma** de 2003 se enfocó en el postnatal, por lo que armonizar hoy lo legislado en 2011 es pertinente y una responsabilidad legislativa para dar certeza.»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 102,
+    "target_chamber": "senate"
+   },
+   {
+    "user_id": 3,
+    "keyword_id": 3,
+    "type": "session",
+    "related_id": 102,
+    "chamber": "senate",
+    "message": "Palabra clave 'Ministro del Interior' encontrada en nueva sesión — Senado (mencionada 2 veces)\nTranscripción: «La Secretaría de la Comisión: Informó las excusas del **Ministro del Interior** y del Ministro Secretario General de la Presidencia, señalando que el Ejecutivo sería representado por el Subsecretario de Desarrollo Regional y Administrativo.»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 102,
+    "target_chamber": "senate"
+   },
+   {
+    "user_id": 1,
+    "keyword_id": 9,
+    "type": "session",
+    "related_id": 102,
+    "chamber": "senate",
+    "message": "Palabra clave 'sesion' encontrada en nueva sesión — Senado (mencionada 2 veces)\nTranscripción: «Relató el origen del proyecto en un caso en Gualañé y detalló la tramitación en la Cámara de Diputados: **sesion**es de comisión en octubre de 2022 y aprobación en Sala con 137 votos a favor, sin votos en contra y una abstención.»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 102,
+    "target_chamber": "senate"
+   },
+   {
+    "user_id": 2,
+    "keyword_id": 13,
+    "type": "session",
+    "related_id": 102,
+    "chamber": "senate",
+    "message": "Palabra clave 'urgencia' encontrada en nueva sesión — Senado (mencionada 2 veces)\nTranscripción: «Recalcó el sentido de **urgencia** en resguardar la maternidad y ratificó el compromiso del Ministerio con el artículo 3° y con el respaldo a esta iniciativa.»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 102,
+    "target_chamber": "senate"
+   },
+   {
+    "user_id": 1,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 102,
+    "chamber": "senate",
+    "message": "Boletín 15222-06 mencionado en sesión — Senado\nProyecto: «Modifica las leyes orgánicas constitucionales de Municipalidades y de Gobierno y Administración Regional, para regular la subrogación de au…»\nMateria: «N° **15222-06** Iniciar el estudio del proyecto de ley, en segundo trámite constitucional, que modifica las leyes orgánicas constitucionales de Municipalidades y de Gobierno y Administración Regional, para regular la subrogación de autoridades comunales y regionales que hagan uso de permisos prenatal, postnatal o postnatal parental.»",
+    "boletin": "15222-06",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 102,
+    "target_chamber": "senate",
+    "target_boletin": "15222-06"
+   },
+   {
+    "user_id": 3,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 102,
+    "chamber": "senate",
+    "message": "Boletín 15222-06 mencionado en sesión — Senado\nProyecto: «Modifica las leyes orgánicas constitucionales de Municipalidades y de Gobierno y Administración Regional, para regular la subrogación de au…»\nMateria: «N° **15222-06** Iniciar el estudio del proyecto de ley, en segundo trámite constitucional, que modifica las leyes orgánicas constitucionales de Municipalidades y de Gobierno y Administración Regional, para regular la subrogación de autoridades comunales y regionales que hagan uso de permisos prenatal, postnatal o postnatal parental.»",
+    "boletin": "15222-06",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 102,
+    "target_chamber": "senate",
+    "target_boletin": "15222-06"
+   }
+  ],
+  "103": [
+   {
+    "user_id": 4,
+    "keyword_id": 4,
+    "type": "session",
+    "related_id": 103,
+    "chamber": "senate",
+    "message": "Palabra clave 'ADN' encontrada en nueva sesión — Senado (mencionada 10 veces)\nMateria: «N° 18585-25 Continuar el estudio del proyecto de ley, en segundo trámite constitucional, que modifica el Código Procesal Penal y la ley N°19.970, que crea el sistema nacional de registros de **ADN**, para agilizar las investigaciones penales (Boletín N° 18.585-25), con urgencia calificada de \"simple\".»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 103,
+    "target_chamber": "senate"
+   },
+   {
+    "user_id": 4,
+    "keyword_id": 8,
+    "type": "session",
+    "related_id": 103,
+    "chamber": "senate",
+    "message": "Palabra clave 'carabinero' encontrada en nueva sesión — Senado\nAnálisis: «Recordó que tras la derogación, hacia 2005-2006, del delito de ofensas graves a **carabinero** en el Código de Justicia Militar, la institución quedó solo con figuras comunes poco adecuadas.»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 103,
+    "target_chamber": "senate"
+   },
+   {
+    "user_id": 1,
+    "keyword_id": 9,
+    "type": "session",
+    "related_id": 103,
+    "chamber": "senate",
+    "message": "Palabra clave 'sesion' encontrada en nueva sesión — Senado (mencionada 2 veces)\nAnálisis: «El senador Andrés Longton Herrera: Abrió la **sesión** y dispuso pasar a la cuenta, para luego continuar con la tabla relativa a seguridad pública.»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 103,
+    "target_chamber": "senate"
+   },
+   {
+    "user_id": 2,
+    "keyword_id": 13,
+    "type": "session",
+    "related_id": 103,
+    "chamber": "senate",
+    "message": "Palabra clave 'urgencia' encontrada en nueva sesión — Senado (mencionada 3 veces)\nMateria: «N° 17662-07 Continuar el estudio del proyecto de ley, en segundo trámite constitucional, que aumenta sanciones aplicables al delito de atentado contra la autoridad cometido contra miembros de las Fuerzas de Orden y Seguridad Pública (Boletín N° 17.662-07), con **urgencia** calificada de \"simple\".»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 103,
+    "target_chamber": "senate"
+   },
+   {
+    "user_id": 2,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 103,
+    "chamber": "senate",
+    "message": "Boletín 17662-07 mencionado en sesión — Senado\nProyecto: «Aumenta sanciones aplicables al delito de atentado contra la autoridad»\nMateria: «N° **17662-07** Continuar el estudio del proyecto de ley, en segundo trámite constitucional, que aumenta sanciones aplicables al delito de atentado contra la autoridad cometido contra miembros de las Fuerzas de Orden y Seguridad Pública (Boletín N° 17.662-07), con urgencia calificada de \"simple\".»",
+    "boletin": "17662-07",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 103,
+    "target_chamber": "senate",
+    "target_boletin": "17662-07"
+   },
+   {
+    "user_id": 2,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 103,
+    "chamber": "senate",
+    "message": "Boletín 18585-25 mencionado en sesión — Senado\nMateria: «N° **18585-25** Continuar el estudio del proyecto de ley, en segundo trámite constitucional, que modifica el Código Procesal Penal y la ley N°19.970, que crea el sistema nacional de registros de ADN, para agilizar las investigaciones penales (Boletín N° 18.585-25), con urgencia calificada de \"simple\".»",
+    "boletin": "18585-25",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 103,
+    "target_chamber": "senate",
+    "target_boletin": "18585-25"
+   },
+   {
+    "user_id": 1,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 103,
+    "chamber": "senate",
+    "message": "Boletín 17662-07 mencionado en sesión — Senado\nProyecto: «Aumenta sanciones aplicables al delito de atentado contra la autoridad»\nMateria: «N° **17662-07** Continuar el estudio del proyecto de ley, en segundo trámite constitucional, que aumenta sanciones aplicables al delito de atentado contra la autoridad cometido contra miembros de las Fuerzas de Orden y Seguridad Pública (Boletín N° 17.662-07), con urgencia calificada de \"simple\".»",
+    "boletin": "17662-07",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 103,
+    "target_chamber": "senate",
+    "target_boletin": "17662-07"
+   }
+  ],
+  "104": [
+   {
+    "user_id": 3,
+    "keyword_id": 3,
+    "type": "session",
+    "related_id": 104,
+    "chamber": "camara",
+    "message": "Palabra clave 'Ministro del Interior' encontrada en nueva sesión — Cámara de Diputados (mencionada 4 veces)\nMateria: «Citación al **Ministro del Interior** y Secretario General de Gobierno, Claudio Alvarado Andrade.»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 104,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 2,
+    "keyword_id": 6,
+    "type": "session",
+    "related_id": 104,
+    "chamber": "camara",
+    "message": "Palabra clave 'algoritm' encontrada en nueva sesión — Cámara de Diputados (mencionada 2 veces)\nTítulo: «CEI 13 Manipulación **algorítm**ica en política»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 104,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 1,
+    "keyword_id": 9,
+    "type": "session",
+    "related_id": 104,
+    "chamber": "camara",
+    "message": "Palabra clave 'sesion' encontrada en nueva sesión — Cámara de Diputados (mencionada 15 veces)\nAnálisis: «La comisión abrió la **sesión** con la cuenta de documentos, donde constó el oficio del Ministro del Interior y Secretario General de Gobierno, Claudio Alvarado Andrade, excusando su inasistencia y manifestando disposición a concurrir.»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 104,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 2,
+    "keyword_id": 13,
+    "type": "session",
+    "related_id": 104,
+    "chamber": "camara",
+    "message": "Palabra clave 'urgencia' encontrada en nueva sesión — Cámara de Diputados\nAnálisis: «La diputada Natalie Castillo: manifestó que, tratándose de una citación al ministro, su inasistencia resultó improcedente y que el Ejecutivo debió al menos designar un subrogante, dado el interés público y **urgencia** del tema.»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 104,
+    "target_chamber": "camara"
+   }
+  ],
+  "201": [
+   {
+    "user_id": 1,
+    "keyword_id": 1,
+    "type": "session",
+    "related_id": 201,
+    "chamber": "senate",
+    "message": "Palabra clave 'reforma' encontrada en nueva sesión — Senado\nAnálisis: «…discutió el financiamiento la comisión discutió el financiamiento la comisión discutió el financiamiento la comisión discutió el financiamiento la comisión discutió el financiamiento y la **reforma** tributaria sin conclusiones sin conclusiones sin conclusiones sin conclusiones sin conclusiones sin conclusiones sin conclusiones sin conclusiones sin conclusiones sin conclusiones sin conclus…»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 201,
+    "target_chamber": "senate"
+   },
+   {
+    "user_id": 1,
+    "keyword_id": 9,
+    "type": "session",
+    "related_id": 201,
+    "chamber": "senate",
+    "message": "Palabra clave 'sesion' encontrada en nueva sesión — Senado\nTítulo: «**Sesión** ordinaria»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 201,
+    "target_chamber": "senate"
+   }
+  ],
+  "202": [
+   {
+    "user_id": 3,
+    "keyword_id": 3,
+    "type": "session",
+    "related_id": 202,
+    "chamber": "camara",
+    "message": "Palabra clave 'Ministro del Interior' encontrada en nueva sesión — Cámara de Diputados\nAnálisis: «El **Ministro del Interior** no asistió.»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 202,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 1,
+    "keyword_id": 9,
+    "type": "session",
+    "related_id": 202,
+    "chamber": "camara",
+    "message": "Palabra clave 'sesion' encontrada en nueva sesión — Cámara de Diputados (mencionada 3 veces)\nAnálisis: «**Sesión**, sesion y SESIÓN aparecen aquí; la urgencia es simple.»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 202,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 3,
+    "keyword_id": 11,
+    "type": "session",
+    "related_id": 202,
+    "chamber": "camara",
+    "message": "Palabra clave '20.000' encontrada en nueva sesión — Cámara de Diputados\nAnálisis: «Se informó que **20.000** familias postularon.»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 202,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 2,
+    "keyword_id": 13,
+    "type": "session",
+    "related_id": 202,
+    "chamber": "camara",
+    "message": "Palabra clave 'urgencia' encontrada en nueva sesión — Cámara de Diputados\nAnálisis: «Sesión, sesion y SESIÓN aparecen aquí; la **urgencia** es simple.»",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 202,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 1,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 202,
+    "chamber": "camara",
+    "message": "Boletín 15222-06 mencionado en sesión — Cámara de Diputados\nProyecto: «Modifica las leyes orgánicas constitucionales de Municipalidades y de Gobierno y Administración Regional, para regular la subrogación de au…»\nMateria: «Boletín N° **15.222-06** y otros»",
+    "boletin": "15222-06",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 202,
+    "target_chamber": "camara",
+    "target_boletin": "15222-06"
+   },
+   {
+    "user_id": 3,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 202,
+    "chamber": "camara",
+    "message": "Boletín 15222-06 mencionado en sesión — Cámara de Diputados\nProyecto: «Modifica las leyes orgánicas constitucionales de Municipalidades y de Gobierno y Administración Regional, para regular la subrogación de au…»\nMateria: «Boletín N° **15.222-06** y otros»",
+    "boletin": "15222-06",
+    "origin": "keyword_match",
+    "target_type": "session",
+    "target_id": 202,
+    "target_chamber": "camara",
+    "target_boletin": "15222-06"
+   }
+  ]
+ },
+ "citaciones": {
+  "301": [
+   {
+    "user_id": 2,
+    "keyword_id": 13,
+    "type": "citation",
+    "related_id": 301,
+    "chamber": "senate",
+    "message": "Palabra clave 'urgencia' encontrada en nueva citación — Senado\nMateria: «N° 17662-07 Continuar el estudio del proyecto de ley, en segundo trámite constitucional, que aumenta sanciones aplicables al delito de atentado contra la autoridad cometido contra miembros de las Fuerzas de Orden y Seguridad Pública (Boletín N° 17.662-07), con **urgencia** calificada de \"simple\".»",
+    "origin": "keyword_match",
+    "target_type": "citation",
+    "target_id": 301,
+    "target_chamber": "senate"
+   },
+   {
+    "user_id": 2,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 301,
+    "chamber": "senate",
+    "message": "Boletín 17662-07 mencionado en citación — Senado\nProyecto: «Aumenta sanciones aplicables al delito de atentado contra la autoridad»\nMateria: «N° **17662-07** Continuar el estudio del proyecto de ley, en segundo trámite constitucional, que aumenta sanciones aplicables al delito de atentado contra la autoridad cometido contra miembros de las Fuerzas de Orden y Seguridad Pública (Boletín N° 17.662-07), con urgencia calificada de \"simple\".»",
+    "boletin": "17662-07",
+    "origin": "keyword_match",
+    "target_type": "citation",
+    "target_id": 301,
+    "target_chamber": "senate",
+    "target_boletin": "17662-07"
+   },
+   {
+    "user_id": 1,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 301,
+    "chamber": "senate",
+    "message": "Boletín 17662-07 mencionado en citación — Senado\nProyecto: «Aumenta sanciones aplicables al delito de atentado contra la autoridad»\nMateria: «N° **17662-07** Continuar el estudio del proyecto de ley, en segundo trámite constitucional, que aumenta sanciones aplicables al delito de atentado contra la autoridad cometido contra miembros de las Fuerzas de Orden y Seguridad Pública (Boletín N° 17.662-07), con urgencia calificada de \"simple\".»",
+    "boletin": "17662-07",
+    "origin": "keyword_match",
+    "target_type": "citation",
+    "target_id": 301,
+    "target_chamber": "senate",
+    "target_boletin": "17662-07"
+   }
+  ],
+  "302": [
+   {
+    "user_id": 4,
+    "keyword_id": 4,
+    "type": "citation",
+    "related_id": 302,
+    "chamber": "senate",
+    "message": "Palabra clave 'ADN' encontrada en nueva citación — Senado\nMateria: «N° 18585-25 Continuar el estudio del proyecto de ley, en segundo trámite constitucional, que modifica el Código Procesal Penal y la ley N°19.970, que crea el sistema nacional de registros de **ADN**, para agilizar las investigaciones penales (Boletín N° 18.585-25), con urgencia calificada de \"simple\".»",
+    "origin": "keyword_match",
+    "target_type": "citation",
+    "target_id": 302,
+    "target_chamber": "senate"
+   },
+   {
+    "user_id": 2,
+    "keyword_id": 13,
+    "type": "citation",
+    "related_id": 302,
+    "chamber": "senate",
+    "message": "Palabra clave 'urgencia' encontrada en nueva citación — Senado\nMateria: «N° 18585-25 Continuar el estudio del proyecto de ley, en segundo trámite constitucional, que modifica el Código Procesal Penal y la ley N°19.970, que crea el sistema nacional de registros de ADN, para agilizar las investigaciones penales (Boletín N° 18.585-25), con **urgencia** calificada de \"simple\".»",
+    "origin": "keyword_match",
+    "target_type": "citation",
+    "target_id": 302,
+    "target_chamber": "senate"
+   },
+   {
+    "user_id": 2,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 302,
+    "chamber": "senate",
+    "message": "Boletín 18585-25 mencionado en citación — Senado\nMateria: «N° **18585-25** Continuar el estudio del proyecto de ley, en segundo trámite constitucional, que modifica el Código Procesal Penal y la ley N°19.970, que crea el sistema nacional de registros de ADN, para agilizar las investigaciones penales (Boletín N° 18.585-25), con urgencia calificada de \"simple\".»",
+    "boletin": "18585-25",
+    "origin": "keyword_match",
+    "target_type": "citation",
+    "target_id": 302,
+    "target_chamber": "senate",
+    "target_boletin": "18585-25"
+   }
+  ],
+  "303": [],
+  "304": [
+   {
+    "user_id": 1,
+    "keyword_id": 5,
+    "type": "citation",
+    "related_id": 304,
+    "chamber": "camara",
+    "message": "Palabra clave 'subrogación' encontrada en nueva citación — Cámara de Diputados\nMateria: «**Subrogación** de alcaldes (Boletín N° 15.222-06) y reforma municipal»",
+    "origin": "keyword_match",
+    "target_type": "citation",
+    "target_id": 304,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 2,
+    "keyword_id": 10,
+    "type": "citation",
+    "related_id": 304,
+    "chamber": "camara",
+    "message": "Palabra clave 'Reforma' encontrada en nueva citación — Cámara de Diputados\nMateria: «Subrogación de alcaldes (Boletín N° 15.222-06) y **reforma** municipal»",
+    "origin": "keyword_match",
+    "target_type": "citation",
+    "target_id": 304,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 1,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 304,
+    "chamber": "camara",
+    "message": "Boletín 15222-06 mencionado en citación — Cámara de Diputados\nProyecto: «Modifica las leyes orgánicas constitucionales de Municipalidades y de Gobierno y Administración Regional, para regular la subrogación de au…»\nMateria: «Subrogación de alcaldes (Boletín N° **15.222-06**) y reforma municipal»",
+    "boletin": "15222-06",
+    "origin": "keyword_match",
+    "target_type": "citation",
+    "target_id": 304,
+    "target_chamber": "camara",
+    "target_boletin": "15222-06"
+   },
+   {
+    "user_id": 3,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 304,
+    "chamber": "camara",
+    "message": "Boletín 15222-06 mencionado en citación — Cámara de Diputados\nProyecto: «Modifica las leyes orgánicas constitucionales de Municipalidades y de Gobierno y Administración Regional, para regular la subrogación de au…»\nMateria: «Subrogación de alcaldes (Boletín N° **15.222-06**) y reforma municipal»",
+    "boletin": "15222-06",
+    "origin": "keyword_match",
+    "target_type": "citation",
+    "target_id": 304,
+    "target_chamber": "camara",
+    "target_boletin": "15222-06"
+   }
+  ],
+  "305": [
+   {
+    "user_id": 4,
+    "keyword_id": 4,
+    "type": "citation",
+    "related_id": 305,
+    "chamber": "camara",
+    "message": "Palabra clave 'ADN' encontrada en nueva citación — Cámara de Diputados\nMateria: «Proyecto que crea un registro de **ADN**; urgencia suma»",
+    "origin": "keyword_match",
+    "target_type": "citation",
+    "target_id": 305,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 2,
+    "keyword_id": 13,
+    "type": "citation",
+    "related_id": 305,
+    "chamber": "camara",
+    "message": "Palabra clave 'urgencia' encontrada en nueva citación — Cámara de Diputados\nMateria: «Proyecto que crea un registro de ADN; **urgencia** suma»",
+    "origin": "keyword_match",
+    "target_type": "citation",
+    "target_id": 305,
+    "target_chamber": "camara"
+   }
+  ]
+ },
+ "movimientos": [
+  [
+   {
+    "user_id": 1,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 0,
+    "chamber": "senate",
+    "message": "Nuevo movimiento en boletín 15222-06\nProyecto: «Modifica las leyes orgánicas constitucionales de Municipalidades y de Gobierno y Administración Regional, para regular la subrogación de au…»",
+    "boletin": "15222-06",
+    "origin": "boletin_movement",
+    "target_type": "boletin",
+    "target_boletin": "15222-06"
+   },
+   {
+    "user_id": 3,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 0,
+    "chamber": "senate",
+    "message": "Nuevo movimiento en boletín 15222-06\nProyecto: «Modifica las leyes orgánicas constitucionales de Municipalidades y de Gobierno y Administración Regional, para regular la subrogación de au…»",
+    "boletin": "15222-06",
+    "origin": "boletin_movement",
+    "target_type": "boletin",
+    "target_boletin": "15222-06"
+   }
+  ],
+  [],
+  [],
+  [
+   {
+    "user_id": 2,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 0,
+    "chamber": "senate",
+    "message": "Nuevo movimiento en boletín 17662-07\nProyecto: «Aumenta sanciones aplicables al delito de atentado contra la autoridad»",
+    "boletin": "17662-07",
+    "origin": "boletin_movement",
+    "target_type": "boletin",
+    "target_boletin": "17662-07"
+   },
+   {
+    "user_id": 1,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 0,
+    "chamber": "senate",
+    "message": "Nuevo movimiento en boletín 17662-07\nProyecto: «Aumenta sanciones aplicables al delito de atentado contra la autoridad»",
+    "boletin": "17662-07",
+    "origin": "boletin_movement",
+    "target_type": "boletin",
+    "target_boletin": "17662-07"
+   }
+  ],
+  [
+   {
+    "user_id": 3,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 0,
+    "chamber": "senate",
+    "message": "Nuevo movimiento en boletín 18643-05",
+    "boletin": "18643-05",
+    "origin": "boletin_movement",
+    "target_type": "boletin",
+    "target_boletin": "18643-05"
+   }
+  ],
+  [
+   {
+    "user_id": 4,
+    "keyword_id": null,
+    "type": "boletin",
+    "related_id": 0,
+    "chamber": "senate",
+    "message": "Nuevo movimiento en boletín 99999-99",
+    "boletin": "99999-99",
+    "origin": "boletin_movement",
+    "target_type": "boletin",
+    "target_boletin": "99999-99"
+   }
+  ]
+ ],
+ "turnos": [
+  [
+   {
+    "user_id": 1,
+    "keyword_id": 9,
+    "type": "plenary",
+    "related_id": 55,
+    "chamber": "camara",
+    "message": "«sesion» mencionada en sesión de sala: abrió la sesión, dejó el acta a disposición y pidió a la secretaría abogada dar lectura a la cuenta.",
+    "origin": "keyword_match",
+    "target_id": 55,
+    "target_chamber": "camara"
+   }
+  ],
+  [
+   {
+    "user_id": 3,
+    "keyword_id": 3,
+    "type": "plenary",
+    "related_id": 55,
+    "chamber": "camara",
+    "message": "«Ministro del Interior» mencionada en sesión de sala: informó un oficio del Ministro del Interior y Secretario General de Gobierno, Claudio Alvarado Andrade, excusando su inasistencia y ofreciendo concurrir en otra oportunidad. Comunicó reemplazos par…",
+    "origin": "keyword_match",
+    "target_id": 55,
+    "target_chamber": "camara"
+   },
+   {
+    "user_id": 1,
+    "keyword_id": 9,
+    "type": "plenary",
+    "related_id": 55,
+    "chamber": "camara",
+    "message": "«sesion» mencionada en sesión de sala: informó un oficio del Ministro del Interior y Secretario General de Gobierno, Claudio Alvarado Andrade, excusando su inasistencia y ofreciendo concurrir en otra oportunidad. Comunicó reemplazos par…",
+    "origin": "keyword_match",
+    "target_id": 55,
+    "target_chamber": "camara"
+   }
+  ],
+  [],
+  [
+   {
+    "user_id": 1,
+    "keyword_id": 9,
+    "type": "plenary",
+    "related_id": 55,
+    "chamber": "camara",
+    "message": "«sesion» mencionada en sesión de sala: explicó que no se pudo modificar la tabla por tratarse de un acuerdo previo de la comisión que solo puede alterarse por unanimidad en horario de funcionamiento. Indicó que existía acuerdo para cita…",
+    "origin": "keyword_match",
+    "target_id": 55,
+    "target_chamber": "camara"
+   }
+  ],
+  [],
+  [
+   {
+    "user_id": 1,
+    "keyword_id": 9,
+    "type": "plenary",
+    "related_id": 55,
+    "chamber": "camara",
+    "message": "«sesion» mencionada en sesión de sala: propuso recitar al ministro en la próxima sesión, posterior a la semana distrital, precisando que debe ser citación para obligar su comparecencia. Consultó y constató el acuerdo de la comisión para…",
+    "origin": "keyword_match",
+    "target_id": 55,
+    "target_chamber": "camara"
+   }
+  ],
+  [
+   {
+    "user_id": 1,
+    "keyword_id": 1,
+    "type": "plenary",
+    "related_id": 77,
+    "chamber": "senate",
+    "message": "«reforma» mencionada en sesión de sala: El senador pidió votar la reforma; nº 5 de la tabla.",
+    "origin": "keyword_match",
+    "target_id": 77,
+    "target_chamber": "senate"
+   },
+   {
+    "user_id": 4,
+    "keyword_id": 12,
+    "type": "plenary",
+    "related_id": 77,
+    "chamber": "senate",
+    "message": "«nº 5» mencionada en sesión de sala: El senador pidió votar la reforma; nº 5 de la tabla.",
+    "origin": "keyword_match",
+    "target_id": 77,
+    "target_chamber": "senate"
+   }
+  ],
+  [],
+  [
+   {
+    "user_id": 1,
+    "keyword_id": 1,
+    "type": "plenary",
+    "related_id": 77,
+    "chamber": "senate",
+    "message": "«reforma» mencionada en sesión de sala: Volvió sobre la reforma muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy muy m…",
+    "origin": "keyword_match",
+    "target_id": 77,
+    "target_chamber": "senate"
+   }
+  ],
+  [],
+  [
+   {
+    "user_id": 3,
+    "keyword_id": 3,
+    "type": "plenary",
+    "related_id": 77,
+    "chamber": "senate",
+    "message": "«Ministro del Interior» mencionada en sesión de sala: El ministro del interior respondió. El ministro del interior respondió. El ministro del interior respondió.",
+    "origin": "keyword_match",
+    "target_id": 77,
+    "target_chamber": "senate"
+   }
+  ]
+ ]
+}

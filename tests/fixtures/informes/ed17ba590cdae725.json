@@ -1,0 +1,301 @@
+{
+  "comision": "CEI 13 Manipulación algorítmica en política",
+  "camara": "camara",
+  "fecha": "2026-10-05",
+  "temas": [
+    "Citación al Ministro del Interior y Secretario General de Gobierno, Claudio Alvarado Andrade."
+  ],
+  "resumen": [
+    "La comisión abrió la sesión con la cuenta de documentos, donde constó el oficio del Ministro del Interior y Secretario General de Gobierno, Claudio Alvarado Andrade, excusando su inasistencia y manifestando disposición a concurrir. También se informó de reemplazos puntuales de integrantes para la jornada. A partir de la excusa, se debatió sobre las restricciones reglamentarias que impidieron reordenar la tabla o aceptar subrogancias sin acuerdo unánime en sesión, consideración que varios diputados estimaron que debiese resolverse otorgando flexibilidad al presidente para enfrentar contingencias. Se acordó citar nuevamente al ministro para la próxima sesión, idealmente tras la semana distrital, dejando asentado que la comparecencia debe ser por citación y no simple invitación.",
+    "Ante la ausencia del citado, las y los diputados enfocaron la discusión en la definición de un calendario amplio de comparecencias. Se propusieron víctimas de campañas en línea y actores relevantes del ecosistema informativo: Evelyn Matthei; autoridades y editores de medios; representantes de plataformas (Google, Meta y X); periodistas de investigación; directivos vinculados a encuestas y a campañas comunicacionales; dirigentes gremiales; organizaciones de la sociedad civil (Derechos Digitales y Amnistía); y testigos con información sobre redes de cuentas coordinadas. El presidente precisó que la comisión aprueba invitados por mayoría de presentes y solicitó a quienes propusieron nombres remitir los datos de contacto para cursar las citaciones, advirtiendo que varias personas no tienen obligación legal de asistir. La sesión concluyó sin exposiciones sustantivas y con el acuerdo central de recitar al ministro en la próxima oportunidad y avanzar en un listado de comparecientes sujeto a disponibilidad y a la recepción de antecedentes de contacto."
+  ],
+  "integrantes": [],
+  "invitados": [],
+  "nota_tabla": "El ministro excusó su asistencia mediante oficio; no hubo exposiciones y se acordó recitarlo en la próxima sesión.",
+  "bloques": [
+    {
+      "etiqueta": "TEMA 1",
+      "bajada": null,
+      "intervenciones": [
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "abrió la sesión, dejó el acta a disposición y pidió a la secretaría abogada dar lectura a la cuenta."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 9.7
+        },
+        {
+          "sujeto": "La secretaria abogada de la comisión",
+          "rol": "secretaria",
+          "parrafos": [
+            "informó un oficio del Ministro del Interior y Secretario General de Gobierno, Claudio Alvarado Andrade, excusando su inasistencia y ofreciendo concurrir en otra oportunidad. Comunicó reemplazos para la sesión: la diputada Natalie Castillo por el diputado Luis Cuello y el diputado Mauro González por el diputado Francisco Orrego. Señaló que no había más documentos en la cuenta."
+          ],
+          "bullets": null,
+          "hablante": "B",
+          "inicio_s": 26.3
+        },
+        {
+          "sujeto": "El diputado Marovski",
+          "rol": "integrante",
+          "parrafos": [
+            "recordó la necesidad de que el presidente de la comisión cuente con facultades para ordenar la tabla y proponer el calendario de invitados, a fin de enfrentar contingencias como la ocurrida."
+          ],
+          "bullets": null,
+          "hablante": "C",
+          "inicio_s": 87.3
+        },
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "explicó que no se pudo modificar la tabla por tratarse de un acuerdo previo de la comisión que solo puede alterarse por unanimidad en horario de funcionamiento. Indicó que existía acuerdo para citar al ministro y, además, para invitar al Director Nacional del Servicio Electoral, por lo que no correspondía cambiar el orden sin unanimidad. Planteó la conveniencia de contar con mayor flexibilidad y ofreció someter a acuerdo la recitación del ministro para la próxima sesión."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 103.3
+        },
+        {
+          "sujeto": "El diputado Santana",
+          "rol": "integrante",
+          "parrafos": [
+            "señaló que la excusa del ministro obedeció a una coyuntura específica y valoró su disposición a asistir. Recalcó que sería importante que la primera exposición sustantiva de la comisión sea la del ministro."
+          ],
+          "bullets": null,
+          "hablante": "D",
+          "inicio_s": 190.7
+        },
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "propuso recitar al ministro en la próxima sesión, posterior a la semana distrital, precisando que debe ser citación para obligar su comparecencia. Consultó y constató el acuerdo de la comisión para ese efecto."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 227.5
+        },
+        {
+          "sujeto": "El diputado Hotuiti Teao",
+          "rol": "integrante",
+          "parrafos": [
+            "solicitó invitar a Evelyn Matthei Fornet para que relate su experiencia como afectada por ataques coordinados y desinformación en campaña. Argumentó que la voz de quienes han sido víctimas es indispensable y propuso fijar fecha a la brevedad, sometiendo la invitación a votación."
+          ],
+          "bullets": null,
+          "hablante": "F",
+          "inicio_s": 296.5
+        },
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "propuso agrupar todas las sugerencias de invitados para acordarlas en una sola votación, recordó un listado inicial de autoridades preparado por la secretaría y ofreció la palabra para nuevas propuestas."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 383.4
+        },
+        {
+          "sujeto": "El diputado Marovski",
+          "rol": "integrante",
+          "parrafos": [
+            "propuso incluir a la directora subrogante de la ANSI, Michelle Bordachar, en el listado de invitaciones."
+          ],
+          "bullets": null,
+          "hablante": "C",
+          "inicio_s": 425.8
+        },
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "acogió la propuesta e indicó que se incorporaría a Michelle Bordachar al listado, dando paso a otras intervenciones."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 437.8
+        },
+        {
+          "sujeto": "El diputado Montalba",
+          "rol": "integrante",
+          "parrafos": [
+            "respaldó la invitación a Evelyn Matthei y propuso invitar a dos periodistas que investigaron el caso en SIPER, Ignacia Velasco y Francisca Escribió, sugiriendo que, si fuera posible, asistan junto con el ministro en la próxima sesión. Planteó que los parlamentarios remitan por correo sus propuestas para ordenar la agenda y evitar duplicidades."
+          ],
+          "bullets": null,
+          "hablante": "E",
+          "inicio_s": 455.4
+        },
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "solicitó que se hicieran llegar a la secretaría los datos de contacto de las personas propuestas, para facilitar su citación, y ofreció la palabra a la diputada Castillo."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 526.7
+        },
+        {
+          "sujeto": "La diputada Natalie Castillo",
+          "rol": "integrante",
+          "parrafos": [
+            "manifestó que, tratándose de una citación al ministro, su inasistencia resultó improcedente y que el Ejecutivo debió al menos designar un subrogante, dado el interés público y urgencia del tema. Subrayó la necesidad de esclarecer los mecanismos de manipulación digital, anunció que enviará su listado de invitados y pidió celeridad para investigar con seriedad y en plazos acotados."
+          ],
+          "bullets": null,
+          "hablante": "G",
+          "inicio_s": 540.8
+        },
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "reiteró que la comisión no le otorgó la facultad para ordenar la tabla ni cambiar acuerdos sin unanimidad en sesión, lo que impidió aceptar subrogancias. Confirmó que se acordó recitar al ministro en la próxima sesión y que ya le comunicó informalmente tal decisión, contando con su disposición a asistir. Dio la palabra al diputado Winter."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 656.6
+        },
+        {
+          "sujeto": "El diputado Gonzalo Winter",
+          "rol": "integrante",
+          "parrafos": [
+            "propuso invitar a quienes aparecen vinculados a la encuestadora Numen, asociada a Fernando Cerimedo: Gerardo Joffré, el exdiputado Gonzalo de la Carrera y el abogado Enrique García; además de Carlos Scherer (exeditor de El Mercurio) y Mauricio Gallardo (La Segunda), para explicar la difusión de una encuesta errada. Solicitó citar a Bernardo Fontaine, a Matías Lorca y a representantes de la Asociación de AFP (Paulina Yasigi y Constanza Vollman), así como al periodista Nicolás Sepúlveda, para abordar gastos en campañas digitales y su coordinación. Agregó a Patricio Góngora —señalado como coordinador de cuentas— y a Ricardo Inaiman (“Neuroc”) e Ignacio Dülger (“Casterizador”)."
+          ],
+          "bullets": null,
+          "hablante": "H",
+          "inicio_s": 750.5
+        },
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "pidió remitir los datos de contacto de todas las personas propuestas para viabilizar sus citaciones y concedió la palabra al diputado Moreno y luego a la diputada Rodríguez."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 975.1
+        },
+        {
+          "sujeto": "El diputado Moreno",
+          "rol": "integrante",
+          "parrafos": [
+            "consultó el mecanismo para definir la lista de invitados —si por remisión y aprobación general o votación individual—, advirtiendo que no otorgará unanimidad si existe veto cruzado. Propuso votar listados en bloque para asegurar amplitud y llegar al fondo sobre cuentas anónimas y desinformación."
+          ],
+          "bullets": null,
+          "hablante": "I",
+          "inicio_s": 998.1
+        },
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "aclaró que la aprobación de invitados se realiza por mayoría de presentes y se mostró disponible a aceptar todas las propuestas, considerando que algunos invitados pueden no asistir por no estar obligados. Ofreció la palabra a la diputada Javiera Rodríguez."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 1063.4
+        },
+        {
+          "sujeto": "La diputada Javiera Rodríguez",
+          "rol": "integrante",
+          "parrafos": [
+            "propuso invitar a la exministra Camila Vallejo para abordar campañas impulsadas desde su cartera —como Voto Informado— y el aumento presupuestario de SECOM durante su gestión, en el marco de desinformación y difusión de contenidos políticos. Sugirió además citar a la ex candidata presidencial Jeanette Jara, quien se declaró víctima de campañas de bots y atribuyó responsabilidad a un partido político, para que entregue antecedentes y eventuales denuncias."
+          ],
+          "bullets": null,
+          "hablante": "J",
+          "inicio_s": 1107.1
+        },
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "solicitó los datos de contacto de las personas propuestas y ofreció nuevamente la palabra al diputado Santana."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 1188.9
+        },
+        {
+          "sujeto": "El diputado Santana",
+          "rol": "integrante",
+          "parrafos": [
+            "pidió convocar a representantes de Google, Meta y X para conocer sus políticas y eventuales acciones frente a la manipulación algorítmica y la desinformación."
+          ],
+          "bullets": null,
+          "hablante": "D",
+          "inicio_s": 1206.9
+        },
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "indicó que se debe identificar personas específicas con datos de contacto —preferentemente representantes en Chile— y sugirió precisar estos nombres para la próxima sesión."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 1231.6
+        },
+        {
+          "sujeto": "El diputado Santana",
+          "rol": "integrante",
+          "parrafos": [
+            "añadió invitar a la ONG Derechos Digitales y a Amnistía, y planteó sesionar en reserva para oír el testimonio de Nadia Veller, ex pareja de Fernando Cerimedo, dada su información sobre la operación denunciada."
+          ],
+          "bullets": null,
+          "hablante": "D",
+          "inicio_s": 1265.2
+        },
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "consultó si la testigo mencionada se encontraba en Chile."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 1302.1
+        },
+        {
+          "sujeto": "El diputado Santana",
+          "rol": "integrante",
+          "parrafos": [
+            "respondió que ella ha dado entrevistas a medios nacionales y que podría gestionar su exposición por el medio que sea."
+          ],
+          "bullets": null,
+          "hablante": "D",
+          "inicio_s": 1309.4
+        },
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "señaló que intentarán gestionar contactos para cursar invitaciones, solicitó a quienes proponen remitir antecedentes de contacto y constató acuerdo para avanzar con las propuestas recibidas, quedando levantada la sesión al no haber más puntos de tabla."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 1322.8
+        }
+      ]
+    }
+  ],
+  "votaciones": null,
+  "acuerdos": [
+    "Recitar al Ministro del Interior y Secretario General de Gobierno, Claudio Alvarado Andrade, en la próxima sesión (post semana distrital), mediante citación formal.",
+    "Solicitar a los diputados que propusieron invitados remitir datos de contacto para viabilizar citaciones.",
+    "Aprobar en principio avanzar con el listado amplio de comparecientes propuesto por los integrantes, sujeto a disponibilidad y a la recepción de antecedentes de contacto."
+  ],
+  "cierre": null,
+  "flags": [
+    "Miembros de la comisión no disponibles vía herramienta: índice de comisiones no disponible (Index files not found. Build the index first.).",
+    "El cargo atribuido a Claudio Alvarado como “Ministro del Interior y Secretario General de Gobierno” podría ser erróneo según periodos de gobierno; se reproduce tal como fue leído en la cuenta.",
+    "Se mencionó al Director del Servicio Electoral como “Raúl Santana”; el nombre oficial no se confirmó.",
+    "Se aludió al medio “SIPER” y a un reportaje de “Reportea CL”; denominaciones y autorías no verificadas.",
+    "Nombres propios potencialmente mal transcritos: Michelle Bordachar/ Bordacha; Gonzalo Vinter/Winter; Nadia Veller; Ignacia Velasco; Francisca Escribió; Paulina Yasigi; Constanza Vollman; Ricardo Inaiman; Ignacio Dülger.",
+    "Se usó “ANSI” como institución; no se confirmó su denominación oficial.",
+    "Adjetivo vacío 'relevante': …Ante la ausencia del citado, las y los diputados enfocaron l…",
+    "Adjetivo vacío 'importante': …señaló que la excusa del ministro obedeció a una coyuntura e…",
+    "Apertura ceremonial 'en el marco de': …propuso invitar a la exministra Camila Vallejo para abordar …"
+  ]
+}

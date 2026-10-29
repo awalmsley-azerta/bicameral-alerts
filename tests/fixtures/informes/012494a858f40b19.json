@@ -1,0 +1,249 @@
+{
+  "comision": "Comisión de Hacienda",
+  "camara": "camara",
+  "fecha": "2026-09-30",
+  "temas": [
+    "Proyecto de ley de Reforma de Mercado de Capitales y Financiamiento de la Casa Propia, boletín 18.643 (urgencia: suma)"
+  ],
+  "resumen": [
+    "La comisión continuó las exposiciones sobre el proyecto de Reforma de Mercado de Capitales y Financiamiento de la Casa Propia (boletín 18.643). Mario Marcel presentó un marco general del rol del sistema financiero y la necesidad de regulaciones que acompañen la innovación sin socializar riesgos, repasó reformas previas y delineó fortalezas y debilidades del mercado chileno. Detalló cuatro ejes del proyecto —hipotecario (FONAVI y ahorro para la vivienda), internacionalización del peso, medidas sectoriales y financiamiento para empresas—, advirtiendo que el diseño del FONAVI podría reducir entre 60 y 100 puntos base las tasas hipotecarias, pero que faltan mecanismos para evitar alzas de precios de viviendas y una estimación del costo fiscal de las garantías. Cuestionó reemplazar culpa grave por culpa leve en fraudes y la eliminación del piso de 1% de capital sistémico sin una ley de resolución bancaria y garantía de depósitos; rechazó reabrir comisiones de vehículos locales para AFP.",
+    "Klaus Schmidt-Hebbel enmarcó la reforma en mayor incertidumbre global y estancamiento interno, defendió sus efectos positivos aunque acotados sobre crecimiento y planteó perfeccionar el FONAVI: bajar y fijar vía reglamento el deducible de primera pérdida (idealmente por cartera) para incentivar la participación bancaria. Valoró la neutralidad regulatoria, la ampliación de demanda internacional por activos chilenos y ajustes a la TMC. La Asociación de Fondos Mutuos destacó que más de 2 millones de personas ahorran en fondos (US$109 mil millones, portafolios conservadores) y pidió neutralidad tributaria del artículo 107 entre vehículos, permitir deuda <3 años en fondos mutuos, eximir de IVA la administración para evitar arbitrajes y habilitar multicuenta en el ahorro para vivienda, además de un transitorio. Diputadas y diputados consultaron sobre efectos fiscales, precios de viviendas, capital bancario y comisiones. Hacienda valoró la equivalencia de tratamientos, defendió el uso de vehículos por eficiencia y confirmó que parámetros como el deducible serán fijados por la CMF en reglamento."
+  ],
+  "integrantes": [],
+  "invitados": [
+    {
+      "nombre": "Mario Marcel",
+      "cargo": "ex ministro de Hacienda",
+      "institucion": null
+    },
+    {
+      "nombre": "Klaus Schmidt-Hebbel",
+      "cargo": "economista, ex director del Departamento Económico",
+      "institucion": "OCDE"
+    },
+    {
+      "nombre": "Macarena Osa Rodríguez",
+      "cargo": "gerenta general",
+      "institucion": "Asociación de Fondos Mutuos de Chile"
+    },
+    {
+      "nombre": "José Miguel Rid",
+      "cargo": "asesor",
+      "institucion": "Asociación de Fondos Mutuos de Chile"
+    },
+    {
+      "nombre": "Salvador Barros",
+      "cargo": "abogado y asesor",
+      "institucion": "Asociación de Fondos Mutuos de Chile"
+    }
+  ],
+  "nota_tabla": null,
+  "bloques": [
+    {
+      "etiqueta": "TEMA 1",
+      "bajada": "Proyecto de ley de Reforma de Mercado de Capitales y Financiamiento de la Casa Propia, boletín 18.643",
+      "intervenciones": [
+        {
+          "sujeto": "La secretaria de la comisión",
+          "rol": "secretaria",
+          "parrafos": [
+            "Indicó que se comunicó el reemplazo del diputado Boris Barrera por la diputada Irací Hasler para esta sesión."
+          ],
+          "bullets": null,
+          "hablante": "B",
+          "inicio_s": 28.0
+        },
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "Expuso que la sesión continuaría con presentaciones sobre el proyecto iniciado por mensaje presidencial de Reforma de Mercado de Capitales y Financiamiento de la Casa Propia (boletín 18.643), con urgencia de suma. Informó el orden de las exposiciones: Mario Marcel, Klaus Schmidt-Hebbel y la Asociación de Fondos Mutuos de Chile."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 36.6
+        },
+        {
+          "sujeto": "Mario Marcel, ex ministro de Hacienda",
+          "rol": "invitado",
+          "parrafos": [
+            "Señaló que un sistema financiero profundo aporta ahorro, inversión, liquidez, gestión de riesgos y pago, pero que la innovación conlleva riesgos que suelen socializarse, por lo que la regulación debe actualizarse para permitir innovación sin elevar riesgos sistémicos. Repasó reformas desde los MK y la Ley General de Bancos hasta la Ley Fintech y resiliencia financiera, y presentó un diagnóstico con fortalezas (profundidad de capitales, bancarización, reguladores) y debilidades (menor ahorro respecto a países desarrollados, iliquidez de renta fija post retiros, baja capitalización bursátil, concentración cambiaria, atraso en seguros, falta de resolución bancaria y garantía de depósitos).",
+            "Planteó que el proyecto persigue recuperar el rol instrumental del mercado de capitales en cuatro áreas: financiamiento hipotecario (FONAVI y ahorro para la vivienda), internacionalización del peso, medidas sectoriales y financiamiento para empresas. Detalló que FONAVI compraría hipotecas de primera vivienda hasta 6.000 UF con administración de BancoEstado, originadores con deducible graduable y bonos con garantía estatal; estimó una baja de tasas hipotecarias entre 60 y 100 puntos base, aunque advirtió que el LTV implícito y la presión de demanda sin resguardos pueden impulsar precios, y que falta estimar el costo fiscal esperado de la garantía.",
+            "Valoró medidas para internacionalizar el peso (exenciones de timbres, simplificación de RUT, repos para fondos de pensiones), pero advirtió posibles conflictos de interés de bancos locales en el desarrollo de corresponsalías. Sobre “calibración” de fraudes, cuestionó reemplazar culpa grave por culpa leve y advirtió que la CMF no podría tramitar decenas de miles de reclamos. Consideró riesgoso eliminar el piso de 1% de capital por importancia sistémica sin una ley de resolución bancaria y garantía de depósitos. Rechazó permitir nuevas comisiones de vehículos locales a AFP, pues pueden replicar internamente estrategias locales.",
+            "Respecto del financiamiento a empresas en desarrollo (minibonos, segmento junior, flexibilidad societaria), advirtió tres desafíos: disposición de emisores a abrirse, demanda de institucionales —en especial por autorizaciones específicas— y baja liquidez en acciones pequeñas. Sobre impactos fiscales, criticó compensar costos actuales con crecimiento futuro —como en la ley de reconstrucción— e instó a buscar compensaciones explícitas."
+          ],
+          "bullets": null,
+          "hablante": "D",
+          "inicio_s": 135.0
+        },
+        {
+          "sujeto": "Klaus Schmidt-Hebbel, economista y ex director del Departamento Económico de la OCDE",
+          "rol": "invitado",
+          "parrafos": [
+            "Expuso que Chile enfrenta mayor incertidumbre global y estancamiento del crecimiento tendencial (2%), junto a contracción del mercado de capitales por retiros previsionales, salida de capitales, impuesto a ganancias de capital y desplazamiento por deuda pública. Justificó una reforma amplia y complementaria para reprofundizar renta fija y variable, con efectos positivos aunque acotados sobre PIB.",
+            "Propuso perfeccionar el FONAVI: reducir el deducible de primera pérdida (hoy 3,5%) por debajo de la mora hipotecaria efectiva (0,5–1%) y fijarlo por reglamento de la CMF, aplicándolo a carteras en paquete para incentivar la participación bancaria. Estimó una baja de tasas hipotecarias de 50–60 puntos base —feliz si alcanzara 100— y mayor demanda de bonos FONAVI por institucionales. Valoró el ahorro para la vivienda (7%+3%) para impulsar ahorro de personas.",
+            "Sostuvo que la combinación de simplificaciones regulatorias y correcciones tributarias elevará el acceso a financiamiento y la liquidez de mercado. Sugirió ampliar la exclusión de Tasa Máxima Convencional a operaciones en moneda extranjera y advirtió asimetría competitiva con bancos extranjeros ya exentos. Apoyó medidas para atraer capitales (RUT, timbres) y reemplazar el piso fijo del colchón de conservación por uno flexible con piso 0, equiparando estándares internacionales. Concluyó que el impacto fiscal neto es muy bajo y la reforma es prácticamente autofinanciada en el largo plazo."
+          ],
+          "bullets": null,
+          "hablante": "F",
+          "inicio_s": 1636.2
+        },
+        {
+          "sujeto": "Macarena Osa Rodríguez, gerenta general de la Asociación de Fondos Mutuos de Chile",
+          "rol": "invitado",
+          "parrafos": [
+            "Expuso que más de 2 millones de personas —96% de los inversionistas de la industria— ahorran vía fondos mutuos, con patrimonio administrado total de US$109.000 millones y perfiles conservadores: cerca de 70% en deuda de duración menor a tres años. Subrayó que la industria financia al fisco y a la banca, provee liquidez al sistema y ha reducido costos (TACC promedio ponderado en torno a 1,1%) con amplia oferta y competencia.",
+            "Valoró incentivos al ahorro (ahorro para vivienda y ahorro personal voluntario), la modernización de la Ley Única de Fondos y la regulación proporcional de la CMF. Propuso asegurar neutralidad tributaria del artículo 107 entre fondos mutuos, fondos de inversión y vehículos extranjeros; permitir deuda <3 años en fondos mutuos dada la realidad de portafolios; evaluar diferencias de IVA para evitar arbitrajes que empujan la administración al exterior; y habilitar multicuenta en el ahorro para vivienda para diversificar riesgos, emulando operativa de APV."
+          ],
+          "bullets": null,
+          "hablante": "B",
+          "inicio_s": 2998.6
+        },
+        {
+          "sujeto": "Salvador Barros, abogado y asesor de la Asociación de Fondos Mutuos de Chile",
+          "rol": "invitado",
+          "parrafos": [
+            "Precisó cuatro ajustes: (i) homogeneizar el test de cartera del artículo 107 para que el beneficio no dependa del vehículo, sino de los activos subyacentes, (ii) permitir invertir a través de fondos mutuos en deuda de menos de tres años, dado que más del 92% del patrimonio y 96% de los partícipes están en esa duración, (iii) eximir de IVA la administración de fondos para evitar deslocalización y pérdida de base imponible, y (iv) incorporar un artículo transitorio que permita migrar desde los regímenes actuales (artículos 108 y 150) al nuevo 107 sin “cautivar” ahorrantes."
+          ],
+          "bullets": null,
+          "hablante": "G",
+          "inicio_s": 3718.3
+        },
+        {
+          "sujeto": "El diputado Pierre Carlesi",
+          "rol": "integrante",
+          "parrafos": [
+            "Consultó qué tan conservadoras eran las estimaciones fiscales, particularmente la pérdida de ingresos en los primeros años, considerando que la recaudación actual por estos conceptos es muy baja y que se ha comparado el esquema con el proyecto de reconstrucción nacional."
+          ],
+          "bullets": null,
+          "hablante": "E",
+          "inicio_s": 3977.0
+        },
+        {
+          "sujeto": "El diputado Diego Schalper",
+          "rol": "integrante",
+          "parrafos": [
+            "Preguntó en qué ámbitos podría la comisión ser más ambiciosa dentro del proyecto. Solicitó a la Asociación de Fondos Mutuos remitir una minuta con ajustes jurídicos puntuales para materializar los objetivos expuestos, especialmente para ampliar el acceso de personas a fondos mutuos."
+          ],
+          "bullets": null,
+          "hablante": "H",
+          "inicio_s": 4067.1
+        },
+        {
+          "sujeto": "El diputado Jorge Brito",
+          "rol": "integrante",
+          "parrafos": [
+            "Planteó el riesgo de que el FONAVI presione al alza los precios de vivienda y consultó medidas para mitigarlo, considerando el alza acumulada cercana a 300% en 16 años. Consultó por criterios socioeconómicos en el fondo para evitar regresividad. Requirió además la justificación de reabrir comisiones a intermediarios con ahorros previsionales, tras su prohibición en la reforma previsional."
+          ],
+          "bullets": null,
+          "hablante": "I",
+          "inicio_s": 4149.1
+        },
+        {
+          "sujeto": "La diputada Irací Hasler",
+          "rol": "integrante",
+          "parrafos": [
+            "Consultó mecanismos para prevenir alzas de precios y mejorar acceso al crédito bancario, los riesgos de reponer comisiones para inversiones locales de AFP y los efectos de reducir de 1% a 0% el piso del colchón de capital por importancia sistémica. Solicitó precisar supuestos de crecimiento usados para compensación fiscal y alternativas para cubrir un proyecto inicialmente deficitario. Preguntó si una baja del deducible de primera pérdida no debilitaría los incentivos del originador a mantener calidad de cartera."
+          ],
+          "bullets": null,
+          "hablante": "C",
+          "inicio_s": 4298.5
+        },
+        {
+          "sujeto": "El diputado Fernando Ugarte",
+          "rol": "integrante",
+          "parrafos": [
+            "Pidió profundizar la propuesta de multicuenta en el ahorro voluntario para la vivienda y su operativa, valorando su potencial para diversificar riesgos y acortar plazos de meta."
+          ],
+          "bullets": null,
+          "hablante": "F",
+          "inicio_s": 4571.8
+        },
+        {
+          "sujeto": "El presidente de la comisión",
+          "rol": "integrante",
+          "parrafos": [
+            "Pidió aclarar si la objeción principal sobre la ley de fraudes era el cambio de “culpa grave” a “culpa leve”, considerando razonable el resto del articulado. Consultó a los invitados y al Ejecutivo sobre habilitar un esquema multiproducto en el ahorro para la vivienda similar al APV y sobre la evaluación de sus propuestas por el Ministerio de Hacienda."
+          ],
+          "bullets": null,
+          "hablante": "A",
+          "inicio_s": 4607.6
+        },
+        {
+          "sujeto": "El diputado Coloma",
+          "rol": "integrante",
+          "parrafos": [
+            "Consultó cómo explicar que, pese a una estabilización de reclamos en torno a 30%, el Banco Central informara un alza de la tasa de fraude en el primer semestre de 2026."
+          ],
+          "bullets": null,
+          "hablante": "F",
+          "inicio_s": 4710.4
+        },
+        {
+          "sujeto": "Mario Marcel, ex ministro de Hacienda",
+          "rol": "invitado",
+          "parrafos": [
+            "Respondió que el valor esperado de la garantía FONAVI debiera estimarse y transparentarse con supuestos de incumplimiento y morosidad. Indicó que los efectos sobre crecimiento están correctamente acotados y que el principio de compensar costos presentes con crecimiento futuro es inadecuado; compensar US$200 millones anuales no debiera ser difícil con medidas explícitas.",
+            "Propuso como ambición pendiente una ley de resolución bancaria y garantía de depósitos. Sobre precios de vivienda, distinguió un riesgo de alzas en el corto plazo por oferta fija —mitigable con referencias de precio, como en subsidio a tasa y garantía— y, a largo plazo, el efecto de normas urbanas. Sobre comisiones, precisó que la reforma previsional no prohíbe comprar vehículos, sino deducir comisiones desde la rentabilidad del afiliado para vehículos locales. Confirmó que su reparo a la ley de fraudes se circunscribe al cambio a culpa leve. Explicó la aparente discrepancia de datos de fraude por diferencias entre montos y número de reclamos."
+          ],
+          "bullets": null,
+          "hablante": "D",
+          "inicio_s": 4745.1
+        },
+        {
+          "sujeto": "Klaus Schmidt-Hebbel, economista y ex director del Departamento Económico de la OCDE",
+          "rol": "invitado",
+          "parrafos": [
+            "Indicó que el costo fiscal directo luce conservador y que el impacto compensador por mayor crecimiento podría estar subestimado; los montos involucrados son bajos. Propuso encargar estudios internacionales para armonizar exigencias de capital (Basilea III) con un eventual seguro de depósitos y régimen de resolución bancaria, evitando desintermediación.",
+            "Reiteró perfeccionar el deducible del FONAVI por reglamento y por cartera. Señaló asimetrías de la TMC frente a bancos extranjeros. Advirtió cautela fiscal frente a extender subsidios del ahorro para vivienda a múltiples instrumentos, sugiriendo evaluar resultados antes de ampliarlos."
+          ],
+          "bullets": null,
+          "hablante": "F",
+          "inicio_s": 5394.0
+        },
+        {
+          "sujeto": "Macarena Osa Rodríguez, gerenta general de la Asociación de Fondos Mutuos de Chile",
+          "rol": "invitado",
+          "parrafos": [
+            "Profundizó que la multicuenta en el ahorro para la vivienda ampliaría la competencia y permitiría combinar perfiles de riesgo, replicando operativa del APV. Defendió habilitar vehículos con comisiones para AFP en el mercado local por su rol en gestión de liquidez —p. ej., money market— bajo techos regulatorios. Sobre IVA, afirmó que la exención evitaría arbitrajes que trasladan la administración al exterior y que el efecto no es pérdida neta de recaudación, sino cambio de base hacia impuestos a la renta, con mayor capitalización del ahorro."
+          ],
+          "bullets": null,
+          "hablante": "B",
+          "inicio_s": 5945.8
+        },
+        {
+          "sujeto": "Un representante del Ministerio de Hacienda",
+          "rol": "invitado",
+          "parrafos": [
+            "Indicó que se revisará la equivalencia de tratamientos del artículo 107 para fondos mutuos y de inversión sobre iguales activos subyacentes. Precisó que el proyecto no contempla eliminar el IVA a comisiones. Defendió permitir comisiones en vehículos por eficiencia operativa y liquidez que benefician a los fondos de pensiones, conforme a recomendaciones del Consejo Consultivo de Mercado de Capitales.",
+            "Sostuvo que no se prevén alzas de precios de viviendas en el corto y mediano plazo por debilidad económica, inclusión de viviendas usadas en FONAVI y medidas del proyecto de reconstrucción (p. ej., exención de IVA). Aclaró que el FONAVI estará regulado por la CMF, con provisiones de riesgo y que parámetros como el deducible se fijarán por reglamento. Confirmó que una ley de resolución bancaria está en la agenda futura."
+          ],
+          "bullets": null,
+          "hablante": "J",
+          "inicio_s": 6187.8
+        },
+        {
+          "sujeto": "Mario Marcel, ex ministro de Hacienda",
+          "rol": "invitado",
+          "parrafos": [
+            "Aclaró que la reforma previsional no impide a las AFP invertir en vehículos, sino que prohíbe que la comisión del vehículo se descuente desde la rentabilidad del afiliado para inversiones locales; la comisión debe financiarse con la comisión explícita que la AFP cobra a sus usuarios."
+          ],
+          "bullets": null,
+          "hablante": "D",
+          "inicio_s": 6671.5
+        }
+      ]
+    }
+  ],
+  "votaciones": null,
+  "acuerdos": [],
+  "cierre": null,
+  "flags": [
+    "fetch_deputies_commission_members: índice de comisiones no disponible (Index files not found. Build the index first.). Se utilizarán los integrantes de la citación si estuvieran listados; en este caso, la citación no incluye nómina.",
+    "Etiquetas de hablante inconsistentes en la transcripción (p. ej., la etiqueta B corresponde a la secretaría al inicio y luego a Macarena Osa; la etiqueta F corresponde a más de un interviniente). Se corrigieron las atribuciones evidentes en sujetos.",
+    "Nombre del Presidente de la República mal transcrito en la lectura del proyecto (aparece “José Antonio Kasrist”). No se pudo corroborar el nombre oficial en la fuente.",
+    "RESUMEN algo fuera de rango (tolerado): 309 palabras (objetivo 200-300).",
+    "Intervención de invitado muy breve (46 palabras): 'Mario Marcel, ex ministro de Hacienda'. La política es dejarla lo más completa posible.",
+    "Adjetivo vacío 'profundo': …Señaló que un sistema financiero profundo aporta ahorro, inv…"
+  ]
+}
