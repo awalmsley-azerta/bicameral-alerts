@@ -1,0 +1,553 @@
+{
+  "comision": "Comisión de Seguridad Pública",
+  "camara": "senado",
+  "fecha": "2026-10-20",
+  "temas": [
+    "1.- Bol.N° 17662-07 Continuar el estudio del proyecto de ley, en segundo trámite constitucional, que aumenta sanciones aplicables al delito de atentado contra la autoridad cometido contra miembros de las Fuerzas de Orden y Seguridad Pública (Boletín N° 17.662-07), con urgencia calificada de \"simple\".",
+    "2.- Bol.N° 18585-25 Continuar el estudio del proyecto de ley, en segundo trámite constitucional, que modifica el Código Procesal Penal y la ley N°19.970, que crea el sistema nacional de registros de ADN, para agilizar las investigaciones penales (Boletín N° 18.585-25), con urgencia calificada de \"simple\".",
+    "3.- Bol.N° 18633-25 Iniciar el estudio del proyecto de ley, en primer trámite constitucional, que incorpora la figura agravada de la conspiración para cometer homicidio calificado en contra de alcaldes y concejales (Boletín N° 18.633-25)."
+  ],
+  "resumen": [
+    "La comisión continuó el estudio del Boletín N° 17.662-07, que eleva sanciones por atentado contra la autoridad cuando la víctima sea integrante de las Fuerzas de Orden y Seguridad Pública. Carabineros, a través del coronel Gonzalo Barra, respaldó la incorporación de una hipótesis que sanciona ataques cometidos en grupo o amparados por una masa, y valoró que, tratándose de policías y gendarmes, el juez solo pueda aplicar pena privativa de libertad. Además, apoyó crear el artículo 497 bis para tipificar las ofensas graves contra funcionarios policiales como falta calificada, habilitando detención facultativa. Gendarmería, por su parte, informó 15.492 incidentes de amenazas y agresiones en diez años y 1.174 condenados vigentes por atentado o amenazas a la autoridad, de los que 136 corresponden a casos contra funcionarios de la institución. Sugirió explicitar que las ofensas por redes sociales y las cometidas “con ocasión” del servicio también queden comprendidas. El proyecto se aprobó en general y se abrió plazo de indicaciones.",
+    "Luego, en el Boletín N° 18.585-25 sobre registros de ADN, la Fiscalía Nacional planteó que permitir peritajes en Carabineros y PDI reduciría los tiempos de 8 a 3 meses, solicitó que la acreditación sea institucional y pidió gestionar un addendum con el FBI para que ambas policías operen el software CODIS y actualizar su versión. Propuso incorporar a adolescentes infractores bajo un régimen diferenciado y acotado a crímenes. El Servicio Médico Legal apoyó la apertura con criterios técnicos comunes, reportó 164.574 perfiles en CODIS y 14 laboratorios acreditados, pero advirtió que el convenio vigente solo faculta al SML a operar el sistema. La comisión aprobó en general por unanimidad y envió a Sala. Finalmente, se presentó el Boletín N° 18.633-25 para agravar la conspiración de homicidio calificado contra alcaldes y concejales; se acordó invitar actores y solicitar la fusión con una moción similar."
+  ],
+  "integrantes": [
+    {
+      "nombre": "Karim Bianchi Retamales",
+      "rol": "presidente",
+      "ausente": false,
+      "nota": null
+    },
+    {
+      "nombre": "Pedro Araya Guerrero",
+      "rol": null,
+      "ausente": true,
+      "nota": null
+    },
+    {
+      "nombre": "Juan Luis Castro González",
+      "rol": null,
+      "ausente": true,
+      "nota": null
+    },
+    {
+      "nombre": "Andrés Longton Herrera",
+      "rol": null,
+      "ausente": false,
+      "nota": null
+    },
+    {
+      "nombre": "Cristian Vial Maceratta",
+      "rol": null,
+      "ausente": false,
+      "nota": null
+    }
+  ],
+  "invitados": [
+    {
+      "nombre": "Gonzalo Barra",
+      "cargo": "Jefe del Departamento de Asesoría Legal",
+      "institucion": "Carabineros de Chile"
+    },
+    {
+      "nombre": "Rubén Pérez",
+      "cargo": "Director Nacional",
+      "institucion": "Gendarmería de Chile"
+    },
+    {
+      "nombre": "Luis Fernando Zafie",
+      "cargo": "Director de la Unidad de Asesoría Jurídica",
+      "institucion": "Fiscalía Nacional (Ministerio Público)"
+    },
+    {
+      "nombre": "Alejandra Mera",
+      "cargo": "Directora de la Unidad de Responsabilidad Penal Adolescente",
+      "institucion": "Fiscalía Nacional (Ministerio Público)"
+    },
+    {
+      "nombre": "Viviana Salinas",
+      "cargo": "Directora Regional Metropolitana",
+      "institucion": "Servicio Médico Legal"
+    },
+    {
+      "nombre": "María Trinidad Gilmore",
+      "cargo": "Asesora del senador Cristian Vial Maceratta",
+      "institucion": "Oficina del Senador Vial"
+    }
+  ],
+  "nota_tabla": null,
+  "bloques": [
+    {
+      "etiqueta": "TEMA 1",
+      "bajada": "Proyecto de ley que aumenta sanciones aplicables al delito de atentado contra la autoridad cometido contra miembros de las Fuerzas de Orden y Seguridad Pública (Boletín N° 17.662-07).",
+      "intervenciones": [
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Abrió la sesión y dispuso pasar a la cuenta, para luego continuar con la tabla relativa a seguridad pública."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 10.7
+        },
+        {
+          "sujeto": "La secretaria de la comisión",
+          "rol": "secretaria",
+          "parrafos": [
+            "Informó la cuenta: ingreso de una moción que limita penas sustitutivas (Boletín 18.707, urgencia simple); excusas de la Asociación Nacional de Magistradas y Magistrados, del Ministerio Público, del Servicio Médico Legal y de Carabineros respecto de autoridades inicialmente invitadas; oficios y presentaciones de un alcalde y particulares; solicitud de audiencias de sindicatos de Metro por un proyecto en estudio; y solicitud de la Casa de Moneda para exponer sobre seguridad e innovación."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "B",
+          "inicio_s": 23.8
+        },
+        {
+          "sujeto": "El senador Cristian Vial Maceratta",
+          "rol": "integrante",
+          "parrafos": [
+            "Planteó que no se debía normalizar la violencia observada en recientes conmemoraciones y llamó a enviar una señal de respaldo al Estado de Derecho. Indicó que el Ejecutivo debía ser firme frente a extranjeros que delinquen y advirtió que, si continuaban los hechos, la comisión debía adoptar medidas adicionales.",
+            "Valoró la promulgación de las reglas del uso de la fuerza y sostuvo que las policías y Fuerzas Armadas debían internalizarlas operativamente, con entrenamiento e inducción, para respaldar su actuación dentro del marco legal. Señaló casos como persecuciones vehiculares en que, con las nuevas reglas, el uso de armas sería procedente bajo parámetros claros."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "C",
+          "inicio_s": 205.5
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Anunció que oficiaría al Ministerio de Seguridad para consultar la operativización de las reglas del uso de la fuerza, planes de inducción y provisión de medios probatorios como cámaras, y abrió el tratamiento del Boletín N° 17.662-07 dando la palabra a Carabineros."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 622.0
+        },
+        {
+          "sujeto": "El coronel Gonzalo Barra, jefe del Departamento de Asesoría Legal de Carabineros de Chile",
+          "rol": "invitado",
+          "parrafos": [
+            "Expuso que la modificación al artículo 262 incorporaba una hipótesis clave para la función policial: atentados cometidos en grupo o amparados por una multitud, frecuente en control de orden público, lo que cerraba un vacío típico en que agresores se sentían impunes al escudarse en masas. Valoró que, tratándose de Carabineros, PDI o Gendarmería, el juez solo pudiera aplicar pena privativa de libertad, evitando multas que generaban desazón en funcionarios agredidos.",
+            "Respaldó crear el artículo 497 bis del Código Penal para sancionar como falta calificada las ofensas graves contra policías en servicio. Recordó que tras la derogación, hacia 2005-2006, del delito de ofensas graves a carabinero en el Código de Justicia Militar, la institución quedó solo con figuras comunes poco adecuadas. La nueva falta calificada permitiría la detención facultativa del ofensor conforme al artículo 134, haciendo el procedimiento más serio y digno para la función policial."
+          ],
+          "bullets": null,
+          "calidad": "autoridad",
+          "hablante": "D",
+          "inicio_s": 744.9
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Cedió la palabra al Director Nacional de Gendarmería de Chile."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 1161.8
+        },
+        {
+          "sujeto": "El director nacional de Gendarmería, Rubén Pérez",
+          "rol": "invitado",
+          "parrafos": [
+            "Solicitó precisar el marco del debate y anunció que abordaría la situación de sus funcionarios expuestos en tribunales, hospitales y labores en terreno de delegados de libertad vigilada."
+          ],
+          "bullets": null,
+          "calidad": "autoridad",
+          "hablante": "E",
+          "inicio_s": 1178.8
+        },
+        {
+          "sujeto": "El director nacional de Gendarmería, Rubén Pérez",
+          "rol": "invitado",
+          "parrafos": [
+            "Planteó que, si bien el proyecto incidía más intensamente en Carabineros por su exposición pública, en Gendarmería existían riesgos latentes para funcionarios uniformados y civiles en salas de audiencia, hospitales y periferias. Reportó 15.492 incidentes de amenazas y agresiones en diez años registrados en su sistema. Indicó 1.264 personas actualmente bajo control por atentado/amenazas contra la autoridad (arts. 261 y 264), de ellas 626 privadas de libertad y 638 con penas sustitutivas, equivalentes a 0,9% de las cerca de 73.000 personas en control alternativo; 1.174 condenas vigentes y 136 casos contra funcionarios de Gendarmería (11,6%). Concluyó que había alta ocurrencia y baja judicialización.",
+            "Solicitó considerar expresamente las ofensas proferidas por redes sociales y que la protección cubriera conductas cometidas “con ocasión” del servicio fuera de recintos penales, atendida su experiencia de hostilidad en traslados y diligencias."
+          ],
+          "bullets": null,
+          "calidad": "autoridad",
+          "hablante": "E",
+          "inicio_s": 1226.5
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Propuso votar en general y abrir plazo de indicaciones, y ofreció la palabra al senador Vial."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 1422.4
+        },
+        {
+          "sujeto": "El senador Cristian Vial Maceratta",
+          "rol": "integrante",
+          "parrafos": [
+            "Respaldó la línea del proyecto para reinstalar el respeto por la autoridad, destacando el desafío de incorporar estas herramientas en la doctrina operacional policial, con adecuada carga probatoria y registro. Solicitó armonizar el tratamiento de adolescentes, proponiendo su inclusión con criterios compatibles con la Ley de Responsabilidad Penal Adolescente."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "C",
+          "inicio_s": 1438.5
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Fijó la votación en general y el plazo de indicaciones para el lunes 26 de octubre a las 12:00 horas, otorgando la palabra nuevamente al Director de Gendarmería para complementar."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 1690.5
+        },
+        {
+          "sujeto": "El director nacional de Gendarmería, Rubén Pérez",
+          "rol": "invitado",
+          "parrafos": [
+            "Solicitó incorporar la expresión “por cualquier medio” para abarcar ofensas a través de redes sociales y extender la fórmula “en el ejercicio” a “en el ejercicio o con ocasión” del servicio, dado que agravios y amenazas se materializaban frecuentemente durante traslados a tribunales y hospitales o labores en terreno."
+          ],
+          "bullets": null,
+          "calidad": "autoridad",
+          "hablante": "E",
+          "inicio_s": 1711.6
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Pidió ejemplos de los efectos de publicaciones en redes sociales sobre funcionarios de Gendarmería."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 1831.5
+        },
+        {
+          "sujeto": "El director nacional de Gendarmería, Rubén Pérez",
+          "rol": "invitado",
+          "parrafos": [
+            "Señaló que existía correlación entre campañas de descalificación en redes sociales y episodios de violencia, como coronas de flores dirigidas a mandos, y que su inteligencia institucional había cursado denuncias al Ministerio Público. Informó desvinculaciones de funcionarios que, por redes, habían denostado a jefaturas, incluso en términos misóginos."
+          ],
+          "bullets": null,
+          "calidad": "autoridad",
+          "hablante": "E",
+          "inicio_s": 1860.0
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Dispuso someter a votación en general el proyecto."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 1967.3
+        },
+        {
+          "sujeto": "La secretaria de la comisión",
+          "rol": "secretaria",
+          "parrafos": [
+            "Tomó la votación nominal en general del proyecto del Boletín N° 17.662-07."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "B",
+          "inicio_s": 1980.7
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Comunicó la aprobación en general por unanimidad de los presentes y recordó el plazo de indicaciones. Dio inicio al punto 2 de la tabla sobre registros de ADN, anunciando excusas de invitadas y dando la palabra a la Fiscalía."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 2016.4
+        }
+      ]
+    },
+    {
+      "etiqueta": "TEMA 2",
+      "bajada": "Proyecto de ley que modifica el Código Procesal Penal y la ley N° 19.970, que crea el Sistema Nacional de Registros de ADN, para agilizar las investigaciones penales (Boletín N° 18.585-25).",
+      "intervenciones": [
+        {
+          "sujeto": "Luis Fernando Zafie, director de la Unidad de Asesoría Jurídica de la Fiscalía Nacional",
+          "rol": "invitado",
+          "parrafos": [
+            "Expuso que la exclusividad del SML en pericias de ADN generaba un cuello de botella (8 a 10 meses). Valoró habilitar a laboratorios de Carabineros (BOCAR) y PDI (CRIM), estimando una reducción a 3 meses. Propuso que la acreditación sea institucional, aprovechando la certificación ISO/IEC 17025 del SML para estandarización metodológica y reservando al SML pericias de alta complejidad (DD.HH., presuntas desgracias).",
+            "Indicó que el sistema CODIS, donado por el FBI y hoy operado solo por SML, requería un addendum gestionado por el Ejecutivo para permitir operación por PDI y Carabineros y actualizar su versión. Recalcó que CODIS usa ADN no codificante, resguardando datos sensibles. Valoró incorporar cotejos internacionales vía la Unidad de Cooperación Internacional (UCIEX/UCEX) de la Fiscalía bajo tratados y control judicial. Sostuvo estadísticas 2020-2026 de 931.241 ingresos con imputado desconocido en delitos violentos y contra la propiedad, y 20.012 ingresos de adolescentes conocidos por delitos violentos, justificando incluir adolescentes con un régimen diferenciado y acotado a crímenes y plazos de conservación reducidos."
+          ],
+          "bullets": null,
+          "calidad": "autoridad",
+          "hablante": "F",
+          "inicio_s": 2111.0
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Concedió la palabra a la directora de la Unidad de Responsabilidad Penal Adolescente de la Fiscalía Nacional."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 2959.8
+        },
+        {
+          "sujeto": "Alejandra Mera, directora de la Unidad de Responsabilidad Penal Adolescente de la Fiscalía Nacional",
+          "rol": "invitado",
+          "parrafos": [
+            "Complementó que desde 2011 la Corte Suprema dejó de aplicar el registro de ADN a adolescentes por consideraciones de especialidad, reinserción y permanencia vitalicia del registro. Señaló que el Tribunal Constitucional lo ha calificado como medida administrativa, no sanción. Planteó que el sistema carecía hoy de una herramienta investigativa clave en delitos graves donde hay participación adolescente, y que el derecho internacional admite restricciones proporcionadas para fines legítimos como la seguridad pública.",
+            "Estimó insuficiente la regla aprobada en la Cámara que remite genéricamente la ley 20.084 a la de ADN, por generar interpretaciones y mantener el registro de por vida. Propuso un estatuto específico para adolescentes en la ley de ADN: catálogo restringido a delitos graves, tratamiento diferenciado y plazos más breves de conservación de perfiles."
+          ],
+          "bullets": null,
+          "calidad": "autoridad",
+          "hablante": "G",
+          "inicio_s": 2967.9
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Ofreció la palabra al Servicio Médico Legal para exponer su posición técnica."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 3373.2
+        },
+        {
+          "sujeto": "La directora regional metropolitana del Servicio Médico Legal, Viviana Salinas",
+          "rol": "invitado",
+          "parrafos": [
+            "Señaló el acuerdo del SML con ampliar la elaboración de perfiles genéticos a policías, destacando la necesidad de consensos técnicos para el cotejo. Indicó que policías cuentan con laboratorios y personal calificado para determinación de huella genética según la ley 19.970 y su reglamento, y que actualmente el SML realiza el cotejo en CODIS, versión 5.74, con 164.574 perfiles vigentes a junio."
+          ],
+          "bullets": null,
+          "calidad": "autoridad",
+          "hablante": "H",
+          "inicio_s": 3390.2
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Consultó si existe priorización por tipo de delito en la toma o ingreso de huellas al sistema."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 3507.7
+        },
+        {
+          "sujeto": "La directora regional metropolitana del Servicio Médico Legal, Viviana Salinas",
+          "rol": "invitado",
+          "parrafos": [
+            "Derivó la respuesta al Ministerio Público por tratarse de una materia de su competencia."
+          ],
+          "bullets": null,
+          "calidad": "autoridad",
+          "hablante": "H",
+          "inicio_s": 3528.8
+        },
+        {
+          "sujeto": "Luis Fernando Zafie, director de la Unidad de Asesoría Jurídica de la Fiscalía Nacional",
+          "rol": "invitado",
+          "parrafos": [
+            "Aclaró que existe un catálogo priorizado de crímenes para levantamiento de muestras. Explicó que la ley contempla cinco registros (imputados, condenados, evidencias, personas desaparecidas y víctimas), y que solo el de víctimas requiere consentimiento. Añadió que instrucciones del fiscal nacional regulan la priorización."
+          ],
+          "bullets": null,
+          "calidad": "autoridad",
+          "hablante": "F",
+          "inicio_s": 3533.5
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Agradeció y ofreció que continuara la exposición del SML."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 3576.3
+        },
+        {
+          "sujeto": "La directora regional metropolitana del Servicio Médico Legal, Viviana Salinas",
+          "rol": "invitado",
+          "parrafos": [
+            "Informó que existen 14 laboratorios acreditados a nivel país (2 BOCAR, 7 CRIM y 5 SML). Propuso mesas técnicas para estandarizar el cotejo entre instituciones. Precisó que el SML es operador del sistema, con el Registro Civil como administrador, y que el convenio con el FBI, vigente desde 2004, solo faculta al SML para operar CODIS, por lo que su ampliación requeriría actualizar dicho convenio."
+          ],
+          "bullets": null,
+          "calidad": "autoridad",
+          "hablante": "H",
+          "inicio_s": 3579.0
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Propuso votar en general el proyecto sobre ADN."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 3710.9
+        },
+        {
+          "sujeto": "La secretaria de la comisión",
+          "rol": "secretaria",
+          "parrafos": [
+            "Tomó la votación en general del proyecto que modifica el Código Procesal Penal y la ley N° 19.970 para agilizar las investigaciones penales."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "B",
+          "inicio_s": 3731.0
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Informó la aprobación por unanimidad (5-0) y que el proyecto pasa a Sala. Dio paso al tercer punto de la tabla."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 3772.6
+        }
+      ]
+    },
+    {
+      "etiqueta": "TEMA 3",
+      "bajada": "Proyecto de ley que incorpora la figura agravada de la conspiración para cometer homicidio calificado en contra de alcaldes y concejales (Boletín N° 18.633-25).",
+      "intervenciones": [
+        {
+          "sujeto": "María Trinidad Gilmore, asesora del senador Cristian Vial Maceratta",
+          "rol": "invitado",
+          "parrafos": [
+            "Expuso que la moción modifica el artículo 391 bis del Código Penal para incluir a alcaldes y concejales en la figura agravada de conspiración para cometer homicidio calificado, elevando la protección penal de dichas autoridades locales ante amenazas detectadas en el país."
+          ],
+          "bullets": null,
+          "calidad": "otro",
+          "hablante": "H",
+          "inicio_s": 3867.0
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Confirmó que la propuesta agregaba una agravante y concedió la palabra al autor de la moción."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 3920.5
+        },
+        {
+          "sujeto": "El senador Cristian Vial Maceratta",
+          "rol": "integrante",
+          "parrafos": [
+            "Sostuvo que la iniciativa nació tras amenazas de muerte contra un alcalde, coherente con la política de firmeza frente a quienes atentan contra la convivencia democrática. Precisó que se trata de agravar la conspiración de homicidio calificado, extendiendo la cobertura a autoridades en contacto directo con la criminalidad, como alcaldes y concejales, que hoy no están incluidos a diferencia de jueces, fiscales y policías."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "C",
+          "inicio_s": 3924.1
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Dispuso un plazo de una semana para que las y los senadores propusieran invitados, a efectos de continuar con el estudio del proyecto."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 4102.8
+        },
+        {
+          "sujeto": "La secretaria de la comisión",
+          "rol": "secretaria",
+          "parrafos": [
+            "Informó que existe otra moción sobre la misma materia (Boletín 18.630-25), que modifica también el artículo 391 bis para reforzar la protección penal de autoridades, proponiendo su refundición por conexidad."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "B",
+          "inicio_s": 4125.9
+        },
+        {
+          "sujeto": "El senador Andrés Longton Herrera",
+          "rol": "integrante",
+          "parrafos": [
+            "Estimó procedente solicitar a la Sala la fusión de ambas mociones por identidad de ideas matrices y levantó la sesión."
+          ],
+          "bullets": null,
+          "calidad": null,
+          "hablante": "A",
+          "inicio_s": 4180.8
+        }
+      ]
+    }
+  ],
+  "votaciones": {
+    "tipo": "ambas",
+    "roll_call_verbatim": true,
+    "agregadas": [
+      {
+        "materia": "Boletín N° 18.585-25 (ADN y agilización de investigaciones penales) — votación en general",
+        "a_favor": "5",
+        "en_contra": "0",
+        "abstencion": "0"
+      }
+    ],
+    "nominales": [
+      {
+        "materia": "Boletín N° 17.662-07 (atentado contra la autoridad) — votación en general",
+        "votos": [
+          {
+            "nombre": "Karim Bianchi Retamales",
+            "sentido": "favor"
+          },
+          {
+            "nombre": "Andrés Longton Herrera",
+            "sentido": "favor"
+          },
+          {
+            "nombre": "Cristian Vial Maceratta",
+            "sentido": "favor"
+          }
+        ]
+      }
+    ],
+    "resultado": "Se aprobaron en general, por unanimidad, el Boletín N° 17.662-07 (por la unanimidad de los presentes) y el Boletín N° 18.585-25 (5-0), remitiéndose este último a la Sala y abriéndose plazo de indicaciones para el primero."
+  },
+  "acuerdos": [
+    "Oficiar al Ministerio de Seguridad para detallar la operativización de las reglas del uso de la fuerza, inducción a policías y provisión de medios probatorios (p. ej., cámaras).",
+    "Aprobar en general el Boletín N° 17.662-07 y abrir plazo de indicaciones hasta el lunes 26 de octubre a las 12:00 horas.",
+    "Aprobar en general el Boletín N° 18.585-25 y remitirlo a la Sala.",
+    "Recibir propuestas de invitados para el Boletín N° 18.633-25 dentro de una semana.",
+    "Solicitar a la Sala refundir el Boletín N° 18.633-25 con el Boletín N° 18.630-25 por conexidad."
+  ],
+  "cierre": null,
+  "flags": [
+    "La segunda votación se registró con lectura de nombres y un resultado global 5-0, pero la transcripción contiene confusión de voces en el llamado nominal (p. ej., respuesta registrada tras mencionar a “Senador Castro”); no es posible emitir nómina individual confiable para esa votación.",
+    "La sesión fue conducida por el senador Andrés Longton Herrera, aunque la presidencia formal de la comisión corresponde a Karim Bianchi Retamales.",
+    "Algunos nombres en la cuenta aparecen mal transcritos (p. ej., “Lompton”, “Esquella”).",
+    "La etiqueta de hablante “H” fue usada para más de una persona (Viviana Salinas y María Trinidad Gilmore), lo que puede inducir a error al localizar pasajes.",
+    "RESUMEN algo fuera de rango (tolerado): 302 palabras (objetivo 200-300).",
+    "Intervención de invitado muy breve (28 palabras): 'El director nacional de Gendarmería, Rubén Pérez'. La política es dejarla lo más completa posible.",
+    "Intervención de invitado muy breve (49 palabras): 'El director nacional de Gendarmería, Rubén Pérez'. La política es dejarla lo más completa posible.",
+    "Intervención de invitado muy breve (48 palabras): 'El director nacional de Gendarmería, Rubén Pérez'. La política es dejarla lo más completa posible.",
+    "Intervención de invitado muy breve (14 palabras): 'La directora regional metropolitana del Servicio Médico Legal, Viviana Salinas'. La política es dejarla lo más completa posible.",
+    "Intervención de invitado muy breve (43 palabras): 'Luis Fernando Zafie, director de la Unidad de Asesoría Jurídica de la Fiscalía Nacional'. La política es dejarla lo más completa posible.",
+    "Intervención de invitado muy breve (42 palabras): 'María Trinidad Gilmore, asesora del senador Cristian Vial Maceratta'. La política es dejarla lo más completa posible."
+  ]
+}
