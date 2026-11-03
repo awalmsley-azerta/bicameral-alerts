@@ -24,7 +24,34 @@ python scripts/grabar_golden.py --repos /path/to/folder/with/the/repos
 python -m pytest -q tests
 ```
 
-The service below (`main.py`, the SQS prototype) is unchanged by this package.
+## `servicio`: one site's alerts (step 1: backtest and dry run)
+
+`python -m servicio` reads new content from the Bicameral database by id: sessions
+and citations of both chambers, and live plenary turns. It matches each item with
+`alertas` against one site's watchlists. Boletín movements are not a source yet:
+they need the `boletin_movimientos` table that comes with their cutover.
+
+- `backtest --desde 2026-10-20 [--hasta …]` replays a past window and compares the
+  result with the notifications the producers actually wrote for the same items.
+  Keywords created after an item are left out for that item. Every difference is
+  sorted by its cause: deleted keyword, unfollowed boletín, unified mentions,
+  notification deleted by the user, repeated before, or unexplained. Read only.
+  In production run it from GitHub: Actions → Deploy → `backtest`.
+- `servir --simular` is the continuous dry run. It logs an `ALERTA_SIMULADA` line
+  per alert and writes nothing (both connections are READ ONLY).
+- `servir` writes: each notification together with its `alertas_enviadas` row, in
+  one transaction, under an advisory lock. It needs `sql/alertas_sitio.sql` first,
+  and `ALERTAS_FUENTES` limits it to the sources already cut over.
+
+Connections: `DB_*` / `DB_SECRET_JSON` for the content, `SITIO_DB_*` for the site,
+defaulting to the same database, as for Bicameral.
+
+Tests: `ALERTAS_TEST_DSN=postgresql://postgres:prueba@localhost:55432/alertas`
+against a local `postgres:16-alpine` runs the database tests. Without it they are
+skipped. CI runs them against a service container.
+
+The SQS prototype described below (`main.py`) is no longer built or deployed. Its
+running task keeps its last image until it is retired.
 
 Real-time keyword monitoring for Chilean legislative transcripts and analyses.
 
