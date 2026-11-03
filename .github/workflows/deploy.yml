@@ -1,82 +1,152 @@
-name: Deploy to AWS ECS
+name: Deploy
 
+# Push to main: tests, then build the service image and register a task definition
+# revision pinned to its digest. Nothing runs on its own yet (step 1 of the shared
+# alerts service): the backtest is started by hand and only reads.
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
+    inputs:
+      accion:
+        description: "desplegar: build and register | backtest: replay a past window and compare with what the producers wrote"
+        type: choice
+        options: [desplegar, backtest]
+        default: desplegar
+      desde:
+        description: "backtest: start, ISO date or time (UTC), e.g. 2026-10-20"
+        required: false
+      hasta:
+        description: "backtest: end (optional, default now)"
+        required: false
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: deploy-bicameral-alertas
+  cancel-in-progress: false
 
 env:
-  AWS_REGION: us-east-1
-  ECR_REPOSITORY: bicameral/alerts
-  ECS_SERVICE: bicameral-alerts
+  AWS_REGION: ${{ vars.AWS_REGION }}
+  ECR_REPO: bicameral-prod-alertas
+  TASK_FAMILY: bicameral-prod-alertas
+  CONTAINER: alertas
   ECS_CLUSTER: bicameral-prod-cluster
-  CONTAINER_NAME: alerts
+  LOG_GROUP: /ecs/bicameral-prod-alertas
+  RED_PARAM: /bicameral/prod/alertas/red
 
 jobs:
-  deploy:
-    name: Build and Deploy
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
+  tests:
+    if: github.event_name == 'push' || inputs.accion == 'desplegar'
+    uses: ./.github/workflows/ci.yml
 
+  # Until bicameral-infra creates the repo, task definition and network parameter,
+  # the AWS jobs stay off; set ALERTAS_DEPLOY_ENABLED=true after the apply.
+  desactivado:
+    if: vars.ALERTAS_DEPLOY_ENABLED != 'true'
+    runs-on: ubuntu-24.04-arm
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - run: echo "::notice::Deploy disabled. Set the repository variable ALERTAS_DEPLOY_ENABLED=true once the infra is applied."
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+  deploy:
+    needs: tests
+    if: vars.ALERTAS_DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+      - name: Resolve ECR registry URL
+        id: ecr
+        run: |
+          ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+          echo "url=${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com" >> "$GITHUB_OUTPUT"
 
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-image
+      - name: Login to ECR
+        run: aws ecr get-login-password --region "${AWS_REGION}" | docker login --username AWS --password-stdin "${{ steps.ecr.outputs.url }}"
+
+      - name: Set up Docker Buildx
+        run: docker buildx create --use || true
+
+      - name: Build and push image
+        run: |
+          SHA=$(git rev-parse --short HEAD)
+          CACHE_TAG="${{ steps.ecr.outputs.url }}/${ECR_REPO}:cache"
+          docker buildx build --platform linux/arm64 \
+            --cache-from type=registry,ref="${CACHE_TAG}" \
+            --cache-to type=registry,ref="${CACHE_TAG},mode=max" \
+            -t "${{ steps.ecr.outputs.url }}/${ECR_REPO}:prod" \
+            -t "${{ steps.ecr.outputs.url }}/${ECR_REPO}:${SHA}" \
+            --push .
+
+      - name: Register task definition revision pinned to the image digest
+        run: |
+          set -euo pipefail
+          REPO_URL="${{ steps.ecr.outputs.url }}/${ECR_REPO}"
+          DIGEST=$(aws ecr describe-images --repository-name "${ECR_REPO}" --image-ids imageTag=prod --query 'imageDetails[0].imageDigest' --output text)
+          aws ecs describe-task-definition --task-definition "${TASK_FAMILY}" --query 'taskDefinition' > td.json
+          jq 'del(.status,.taskDefinitionArn,.requiresAttributes,.compatibilities,.registeredAt,.registeredBy,.revision,.deregisteredAt)
+              | .containerDefinitions |= map(.image = "'"${REPO_URL}@${DIGEST}"'")' td.json > td-new.json
+          ARN=$(aws ecs register-task-definition --cli-input-json file://td-new.json --query 'taskDefinition.taskDefinitionArn' --output text)
+          {
+            echo "### Deploy"
+            echo "- image: \`${REPO_URL}@${DIGEST}\`"
+            echo "- registered: \`${ARN}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  backtest:
+    if: vars.ALERTAS_DEPLOY_ENABLED == 'true' && inputs.accion == 'backtest'
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # Read only on the database (the connections are READ ONLY). The report goes
+      # to the job summary; the full JSON is the BACKTEST_JSON log line.
+      - name: Run the backtest
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
+          DESDE: ${{ inputs.desde }}
+          HASTA: ${{ inputs.hasta }}
         run: |
-          # Build Docker image
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          
-          # Push both tags
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          set -euo pipefail
+          if [ -z "${DESDE}" ]; then echo "::error::desde is required for a backtest"; exit 1; fi
+          ORDEN=$(jq -cn --arg d "$DESDE" --arg h "$HASTA" '["backtest","--desde",$d] + (if $h == "" then [] else ["--hasta",$h] end)')
+          RED=$(aws ssm get-parameter --name "${RED_PARAM}" --query 'Parameter.Value' --output text)
+          TAREA=$(aws ecs run-task --cluster "${ECS_CLUSTER}" --launch-type FARGATE --task-definition "${TASK_FAMILY}" \
+                    --network-configuration "${RED}" --started-by github-backtest \
+                    --overrides '{"containerOverrides":[{"name":"'"${CONTAINER}"'","command":'"${ORDEN}"'}]}' \
+                    --query 'tasks[0].taskArn' --output text)
+          echo "task: ${TAREA}"
+          aws ecs wait tasks-stopped --cluster "${ECS_CLUSTER}" --tasks "${TAREA}"
+          SALIDA=$(aws ecs describe-tasks --cluster "${ECS_CLUSTER}" --tasks "${TAREA}" \
+                     --query 'tasks[0].containers[0].exitCode' --output text)
+          aws logs get-log-events --log-group-name "${LOG_GROUP}" \
+            --log-stream-name "ecs/${CONTAINER}/${TAREA##*/}" --query 'events[].message' --output text \
+            | tr '\t' '\n' > salida.txt || true
+          grep -v '^BACKTEST_JSON ' salida.txt || true
+          {
+            echo "### Backtest ${DESDE} → ${HASTA:-now} (exit ${SALIDA})"
+            echo '```'
+            grep -A20 '^BACKTEST ' salida.txt | grep -v '^BACKTEST_JSON ' || echo "(no summary; see the task log)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          grep '^BACKTEST_JSON ' salida.txt | sed 's/^BACKTEST_JSON //' > backtest.json || true
+          [ "${SALIDA}" = "0" ]
 
-      - name: Download current task definition
-        run: |
-          aws ecs describe-task-definition \
-            --task-definition ${{ env.ECS_SERVICE }} \
-            --query taskDefinition > task-definition.json
-
-      - name: Update task definition with new image
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+      - name: Keep the full report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          task-definition: task-definition.json
-          container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.build-image.outputs.image }}
-
-      - name: Deploy to Amazon ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
-
-      - name: Deployment summary
-        run: |
-          echo "🚀 Deployment completed successfully!"
-          echo "Image: ${{ steps.build-image.outputs.image }}"
-          echo "Service: ${{ env.ECS_SERVICE }}"
-          echo "Cluster: ${{ env.ECS_CLUSTER }}"
-
+          name: backtest
+          path: backtest.json
+          if-no-files-found: ignore

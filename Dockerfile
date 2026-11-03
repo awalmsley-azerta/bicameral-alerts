@@ -1,20 +1,17 @@
-# syntax=docker/dockerfile:1
-FROM python:3.11-slim
+# bicameral-alertas: the shared alerts service (python -m servicio).
+# The old SQS prototype (main.py) is no longer built; its running task keeps its
+# last image until it is retired.
+FROM python:3.12-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
-
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /app
 
-# Install minimal dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+COPY requirements-servicio.txt ./
+RUN pip install --no-cache-dir --require-hashes -r requirements-servicio.txt
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY alertas ./alertas
+COPY servicio ./servicio
 
-COPY main.py ./
-
-CMD ["python", "main.py"]
-
+USER nobody
+ENTRYPOINT ["python", "-m", "servicio"]
+CMD ["servir", "--simular"]

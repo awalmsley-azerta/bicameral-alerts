@@ -1,0 +1,34 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "BacktestTasks",
+      "Effect": "Allow",
+      "Action": "ecs:RunTask",
+      "Resource": "arn:aws:ecs:us-east-1:525583648869:task-definition/bicameral-prod-alertas:*",
+      "Condition": {
+        "ArnEquals": {
+          "ecs:cluster": "arn:aws:ecs:us-east-1:525583648869:cluster/bicameral-prod-cluster"
+        }
+      }
+    },
+    {
+      "Sid": "WaitForTasks",
+      "Effect": "Allow",
+      "Action": "ecs:DescribeTasks",
+      "Resource": "arn:aws:ecs:us-east-1:525583648869:task/bicameral-prod-cluster/*"
+    },
+    {
+      "Sid": "ReadNetwork",
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": "arn:aws:ssm:us-east-1:525583648869:parameter/bicameral/prod/alertas/red"
+    },
+    {
+      "Sid": "ReadTaskLogs",
+      "Effect": "Allow",
+      "Action": "logs:GetLogEvents",
+      "Resource": "arn:aws:logs:us-east-1:525583648869:log-group:/ecs/bicameral-prod-alertas:log-stream:*"
+    }
+  ]
+}
