@@ -4,6 +4,9 @@ Each source is one table read in id order after a watermark (the last id seen),
 so a run never needs a queue or a change to the producers. Every source yields
 (id, creado_en, item) with item ready for alertas.reglas.
 
+Citations are also re-read when they are edited (sql/citaciones_editadas.sql
+stamps updated_at), as the scrapers re-check an edited citation today.
+
 Boletín movements are not a source yet: the scraper still notifies directly
 and keeps no record of movements (boletin_movimientos comes with its cutover).
 """
@@ -19,6 +22,9 @@ from servicio.sitio import utc
 # A session row written without its analysis waits this long for it before it is
 # matched with what it has (analyse fills analysis_text on a re-run).
 ESPERA_ANALISIS = timedelta(hours=6)
+# An edit is read once it is this old, so a slower transaction stamped earlier
+# cannot commit behind the watermark.
+ASIENTO_EDICION = timedelta(minutes=1)
 
 
 @dataclass(frozen=True)
@@ -51,6 +57,40 @@ class Fuente:
     def ultimo_id(self, cur) -> int:
         cur.execute(f"SELECT COALESCE(MAX(id), 0) FROM {self.tabla}")
         return cur.fetchone()[0]
+
+
+def _us(t: datetime) -> int:
+    """Edited sources keep their watermark as microseconds since the epoch."""
+    return int(utc(t).timestamp() * 1_000_000)
+
+
+def _desde_us(us: int) -> datetime:
+    return datetime.fromtimestamp(us / 1_000_000, tz=timezone.utc)
+
+
+@dataclass(frozen=True)
+class FuenteEditadas(Fuente):
+    """Citations edited after they were written, in updated_at order. The item's
+    time is its edit, so the 2-day citation cutoff counts from the edit, as when
+    the scrapers re-checked it. A citation edited twice is matched twice; only
+    new matches alert (alertas_enviadas)."""
+
+    def leer(self, cur, despues_de: int, limite: int, ahora: Optional[datetime] = None) -> Tuple[List[tuple], int]:
+        ahora = ahora or datetime.now(timezone.utc)
+        cur.execute(self.sql, (_desde_us(despues_de), ahora - ASIENTO_EDICION, limite))
+        filas = cur.fetchall()
+        listos = [(f[0], f[-1], self.armar(f)) for f in filas]
+        marca = max([despues_de] + [_us(f[-1]) for f in filas])
+        if len(filas) == limite:
+            marca -= 1  # rows stamped in the same microsecond may be past the limit: read them again
+        return listos, marca
+
+    def primer_id_desde(self, cur, desde: datetime) -> int:
+        return _us(desde)
+
+    def ultimo_id(self, cur) -> int:
+        cur.execute(f"SELECT COALESCE(MAX(updated_at), NOW()) FROM {self.tabla}")
+        return _us(cur.fetchone()[0])
 
 
 def _sesion(camara):
@@ -101,7 +141,9 @@ _SESIONES = {
 }
 
 
-def todas() -> List[Fuente]:
+def todas(editadas: bool = True) -> List[Fuente]:
+    """Every source. A backtest leaves the edited ones out: only a citation's last
+    version is kept, so its edits cannot be replayed."""
     fuentes = [Fuente(f"sesiones_{c}", tabla, sql, _sesion(c), _con_analisis) for c, (tabla, sql) in _SESIONES.items()]
     for c in ("senate", "camara"):
         fuentes.append(Fuente(
@@ -112,4 +154,11 @@ def todas() -> List[Fuente]:
         "turnos", "plenary_turns",
         "SELECT id, chamber, plenary_id, start_seconds, text, created_at FROM plenary_turns "
         "WHERE id > %s ORDER BY id LIMIT %s", _turno))
+    if editadas:
+        for c in ("senate", "camara"):
+            fuentes.append(FuenteEditadas(
+                f"citaciones_{c}_editadas", f"{c}_citations",
+                f"SELECT id, commission, commission_original, materia, boletin, date, time, updated_at "
+                f"FROM {c}_citations WHERE updated_at > %s AND updated_at < %s ORDER BY updated_at, id LIMIT %s",
+                _citacion(c)))
     return fuentes

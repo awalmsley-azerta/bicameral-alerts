@@ -34,6 +34,7 @@ env:
   TASK_FAMILY: bicameral-prod-alertas
   CONTAINER: alertas
   ECS_CLUSTER: bicameral-prod-cluster
+  ECS_SERVICE: bicameral-prod-alertas
   LOG_GROUP: /ecs/bicameral-prod-alertas
   RED_PARAM: /bicameral/prod/alertas/red
 
@@ -87,6 +88,7 @@ jobs:
             --push .
 
       - name: Register task definition revision pinned to the image digest
+        id: registrar
         run: |
           set -euo pipefail
           REPO_URL="${{ steps.ecr.outputs.url }}/${ECR_REPO}"
@@ -95,11 +97,29 @@ jobs:
           jq 'del(.status,.taskDefinitionArn,.requiresAttributes,.compatibilities,.registeredAt,.registeredBy,.revision,.deregisteredAt)
               | .containerDefinitions |= map(.image = "'"${REPO_URL}@${DIGEST}"'")' td.json > td-new.json
           ARN=$(aws ecs register-task-definition --cli-input-json file://td-new.json --query 'taskDefinition.taskDefinitionArn' --output text)
+          echo "arn=${ARN}" >> "$GITHUB_OUTPUT"
           {
             echo "### Deploy"
             echo "- image: \`${REPO_URL}@${DIGEST}\`"
             echo "- registered: \`${ARN}\`"
           } >> "$GITHUB_STEP_SUMMARY"
+
+      # The service exists once bicameral-infra creates it (step 2: citations).
+      # It runs one task: the old one stops before the new one starts (the
+      # advisory lock would make a second copy exit anyway).
+      - name: Roll the service onto the new revision
+        env:
+          ARN: ${{ steps.registrar.outputs.arn }}
+        run: |
+          set -euo pipefail
+          ESTADO=$(aws ecs describe-services --cluster "${ECS_CLUSTER}" --services "${ECS_SERVICE}" --query 'services[0].status' --output text)
+          if [ "${ESTADO}" != "ACTIVE" ]; then
+            echo "::notice::No ${ECS_SERVICE} service yet; only the task definition was registered."
+            exit 0
+          fi
+          aws ecs update-service --cluster "${ECS_CLUSTER}" --service "${ECS_SERVICE}" --task-definition "${ARN}" >/dev/null
+          aws ecs wait services-stable --cluster "${ECS_CLUSTER}" --services "${ECS_SERVICE}"
+          echo "- service \`${ECS_SERVICE}\` stable on the new revision" >> "$GITHUB_STEP_SUMMARY"
 
   backtest:
     if: vars.ALERTAS_DEPLOY_ENABLED == 'true' && inputs.accion == 'backtest'
