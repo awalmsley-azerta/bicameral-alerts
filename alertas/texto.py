@@ -14,14 +14,20 @@ from __future__ import annotations
 
 import re
 import unicodedata
+from functools import lru_cache
 from typing import Iterable, List, Optional, Sequence, Tuple
 
 Fuente = Tuple[str, str]  # (text, label shown before the excerpt)
 
 
+@lru_cache(maxsize=16)
 def plegar(texto: str) -> str:
     """'SESIÓN' -> 'sesion'. Spanish NFC text keeps its length, so a position in
-    the folded text is the same position in the original."""
+    the folded text is the same position in the original.
+
+    Cached: one session is matched against every keyword and followed boletín,
+    and its transcript would otherwise be folded again for each (thousands of
+    times; 98% of the matching time). Equal strings hit the cache at C speed."""
     descompuesto = unicodedata.normalize("NFD", texto)
     return "".join(c for c in descompuesto if unicodedata.category(c) != "Mn").lower()
 
