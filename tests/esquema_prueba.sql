@@ -1,7 +1,7 @@
 -- The production tables the service reads and writes, reduced to the columns it
 -- uses. Tests only.
 CREATE TABLE senate_citations (id INTEGER PRIMARY KEY, commission VARCHAR, commission_original VARCHAR,
-    date DATE, time TIME, materia TEXT, boletin VARCHAR, created_at TIMESTAMPTZ DEFAULT NOW());
+    date DATE, time TIME, materia TEXT, boletin VARCHAR, source_url VARCHAR, created_at TIMESTAMPTZ DEFAULT NOW());
 CREATE TABLE camara_citations (LIKE senate_citations INCLUDING ALL);
 CREATE TABLE senate_sessions (id INTEGER PRIMARY KEY, citation_id INTEGER, run_id VARCHAR, commission VARCHAR,
     date DATE, time TIME, title VARCHAR, materia TEXT, boletin TEXT, transcript_text TEXT, analysis_text TEXT,

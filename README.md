@@ -46,6 +46,26 @@ they need the `boletin_movimientos` table that comes with their cutover.
 Connections: `DB_*` / `DB_SECRET_JSON` for the content, `SITIO_DB_*` for the site,
 defaulting to the same database, as for Bicameral.
 
+### Step 2: citations
+
+The service takes over citation alerts from the citation scrapers.
+
+- `sql/citaciones_editadas.sql` (content side) stamps `updated_at` when the
+  scrapers rewrite a citation's materia, boletín, URL or long commission name.
+  `citaciones_<chamber>_editadas` reads those edits, so an edited citation is
+  re-checked as the scrapers do, with the 2-day cutoff counted from the edit.
+- Handover: on every pass the writer touches its `alertas_estado` row. The
+  scrapers skip their citation alerts while `citaciones_<chamber>` was touched
+  in the last hour. Starting the service hands the alerts over. Stopping it hands
+  them back an hour later, with no deploy either way.
+- On Bicameral the service also reads and writes the scrapers' dedupe tables
+  (`citation_keyword_notification_sent`, `citation_boletin_notification_sent`).
+  The two share one record, so an overlap or a hand-back never repeats an alert.
+- A notification and its `alertas_enviadas` row commit together, so a crash
+  between the two cannot mark an alert as sent without sending it.
+
+`ALERTAS_FUENTES=citaciones_senate,citaciones_camara,citaciones_senate_editadas,citaciones_camara_editadas`.
+
 Tests: `ALERTAS_TEST_DSN=postgresql://postgres:prueba@localhost:55432/alertas`
 against a local `postgres:16-alpine` runs the database tests. Without it they are
 skipped. CI runs them against a service container.

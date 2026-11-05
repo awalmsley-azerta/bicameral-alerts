@@ -40,6 +40,7 @@ def _cargar(cur):
     cur.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public")
     cur.execute((RAIZ / "tests" / "esquema_prueba.sql").read_text())
     cur.execute((RAIZ / "sql" / "alertas_sitio.sql").read_text())
+    cur.execute((RAIZ / "sql" / "citaciones_editadas.sql").read_text())
     for id_, user, kw, mt, tipo in casos.PALABRAS:
         cur.execute("INSERT INTO bicameral_keywords VALUES (%s,%s,%s,%s,%s,TRUE,'2026-01-01')", (id_, user, kw, tipo, mt))
     for user, bol in casos.SEGUIDORES:
@@ -178,3 +179,118 @@ def test_motivos_de_las_alertas_nuevas():
     assert _solo_nuevo(("mencion", 1, "15222-06", "session", "camara", 202), m) == "menciones_unificadas"
     assert _solo_nuevo(("palabra", 4, 4, "citation", "camara", 305), m) == "borrada_por_usuario"
     assert _solo_nuevo(("palabra", 4, 4, "session", "camara", 305), m) == "sin_explicar"
+
+
+# -- step 2: citation cutover ------------------------------------------------------
+
+CITAS = ["citaciones_camara", "citaciones_camara_editadas"]
+
+
+def _hace(minutos):
+    from datetime import datetime, timedelta, timezone
+    return datetime.now(timezone.utc) - timedelta(minutes=minutos)
+
+
+def _citacion_nueva(cur, id_, materia):
+    """A Cámara citation for today that matches no keyword unless `materia` does."""
+    cur.execute("INSERT INTO camara_citations (id, commission, commission_original, date, time, materia, source_url) "
+                "VALUES (%s, 'hacienda', 'Comisión de Hacienda', CURRENT_DATE, '15:00', %s, 'u1')", (id_, materia))
+
+
+def _escritor():
+    serv = Servicio(False, CITAS, 60, 5, contenido=_conn(), sitio=_conn())
+    serv.preparar()
+    return serv
+
+
+def test_el_disparador_marca_solo_las_ediciones_que_cuentan(base):
+    c, _ = base
+    with c.cursor() as cur:
+        _citacion_nueva(cur, 400, "Tema neutro")
+        cur.execute("SELECT updated_at FROM camara_citations WHERE id = 400")
+        assert cur.fetchone()[0] is None  # an insert is not an edit
+        cur.execute("UPDATE camara_citations SET materia = 'Tema neutro', time = '16:00' WHERE id = 400")
+        cur.execute("SELECT updated_at FROM camara_citations WHERE id = 400")
+        assert cur.fetchone()[0] is None  # same materia; time is not one of the four
+        cur.execute("UPDATE camara_citations SET source_url = 'u2' WHERE id = 400")
+        cur.execute("SELECT updated_at FROM camara_citations WHERE id = 400")
+        assert cur.fetchone()[0] is not None
+
+
+def test_una_citacion_editada_alerta_lo_nuevo_y_queda_en_el_registro_antiguo(base):
+    from servicio.fuentes import _us
+    c, _ = base
+    with c.cursor() as cur:
+        _citacion_nueva(cur, 400, "Tema neutro")
+    serv = _escritor()
+    assert serv.registro_antiguo
+    serv.marcas["citaciones_camara"] = 399
+    serv.marcas["citaciones_camara_editadas"] = _us(_hace(10))
+    assert serv.una_pasada(ahora=1e9) == 0
+    with c.cursor() as cur:
+        # the scraper rewrites the materia; 'subrogación' is keyword 5 (user 1, citations)
+        cur.execute("UPDATE camara_citations SET materia = 'Proyecto sobre subrogación de cargos' WHERE id = 400")
+        cur.execute("UPDATE camara_citations SET updated_at = %s WHERE id = 400", (_hace(2),))
+    serv._proxima.clear()
+    assert serv.una_pasada(ahora=2e9) == 1
+    with c.cursor() as cur:
+        cur.execute("SELECT user_id, keyword_id, message FROM bicameral_notifications WHERE target_id = 400")
+        user_id, keyword_id, mensaje = cur.fetchone()
+        assert (user_id, keyword_id) == (1, 5) and "**subrogación**" in mensaje
+        cur.execute("SELECT citation_date = CURRENT_DATE FROM citation_keyword_notification_sent "
+                    "WHERE user_id = 1 AND keyword_id = 5 AND citation_id = 400")
+        assert cur.fetchone()[0]
+    # edited again with the same keyword: nothing new
+    with c.cursor() as cur:
+        cur.execute("UPDATE camara_citations SET materia = 'Subrogación, segunda versión', updated_at = %s "
+                    "WHERE id = 400", (_hace(2),))
+        cur.execute("UPDATE camara_citations SET updated_at = %s WHERE id = 400", (_hace(2),))
+    serv.marcas["citaciones_camara_editadas"] = _us(_hace(10))
+    serv._proxima.clear()
+    assert serv.una_pasada(ahora=3e9) == 0
+
+
+def test_lo_que_ya_envio_el_scraper_no_se_repite(base):
+    c, _ = base
+    with c.cursor() as cur:
+        _citacion_nueva(cur, 401, "Proyecto sobre subrogación de cargos")
+        cur.execute("INSERT INTO citation_keyword_notification_sent VALUES (1, 5, 401, CURRENT_DATE)")
+        cur.execute("SELECT COUNT(*) FROM bicameral_notifications")
+        antes = cur.fetchone()[0]
+    serv = _escritor()
+    serv.marcas["citaciones_camara"] = 400
+    assert serv.una_pasada(ahora=1e9) == 0
+    with c.cursor() as cur:
+        cur.execute("SELECT COUNT(*) FROM bicameral_notifications")
+        assert cur.fetchone()[0] == antes
+        cur.execute("SELECT notification_id FROM alertas_enviadas WHERE regla = 'keyword:5' "
+                    "AND objetivo = 'citation:camara:401'")
+        assert cur.fetchone() == (None,)  # remembered as sent, by the scraper
+
+
+def test_cada_pasada_deja_el_latido_aunque_no_haya_nada(base):
+    c, _ = base
+    serv = _escritor()
+    with c.cursor() as cur:
+        cur.execute("UPDATE alertas_estado SET actualizado_en = NOW() - INTERVAL '2 hours'")
+    serv.una_pasada(ahora=1e9)
+    with c.cursor() as cur:
+        cur.execute("SELECT fuente FROM alertas_estado WHERE actualizado_en > NOW() - INTERVAL '1 minute' ORDER BY 1")
+        assert [r[0] for r in cur.fetchall()] == sorted(CITAS)
+
+
+def test_si_falla_la_notificacion_no_queda_como_enviada(base):
+    c, _ = base
+    with c.cursor() as cur:
+        _citacion_nueva(cur, 402, "Proyecto sobre subrogación de cargos")
+        cur.execute("ALTER TABLE bicameral_notifications ADD CONSTRAINT falla CHECK (user_id < 0) NOT VALID")
+    serv = _escritor()
+    serv.marcas["citaciones_camara"] = 401
+    import psycopg2
+    with pytest.raises(psycopg2.errors.CheckViolation):
+        serv.una_pasada(ahora=1e9)
+    with c.cursor() as cur:
+        cur.execute("SELECT COUNT(*) FROM alertas_enviadas")
+        assert cur.fetchone()[0] == 0
+        cur.execute("SELECT COUNT(*) FROM citation_keyword_notification_sent WHERE citation_id = 402")
+        assert cur.fetchone()[0] == 0

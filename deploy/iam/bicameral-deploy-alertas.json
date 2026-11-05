@@ -29,6 +29,15 @@
       "Effect": "Allow",
       "Action": "logs:GetLogEvents",
       "Resource": "arn:aws:logs:us-east-1:525583648869:log-group:/ecs/bicameral-prod-alertas:log-stream:*"
+    },
+    {
+      "Sid": "RollTheService",
+      "Effect": "Allow",
+      "Action": [
+        "ecs:DescribeServices",
+        "ecs:UpdateService"
+      ],
+      "Resource": "arn:aws:ecs:us-east-1:525583648869:service/bicameral-prod-cluster/bicameral-prod-alertas"
     }
   ]
 }

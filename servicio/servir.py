@@ -9,6 +9,12 @@ and holds a Postgres advisory lock, so a second copy waits instead of doubling.
 
 Only the sources named in ALERTAS_FUENTES are read (all by default), so a
 cutover can move one source at a time.
+
+Handover: writing mode touches each source's alertas_estado row on every pass,
+even with nothing new. A producer that reads that row (the citation scrapers)
+stands down while it is fresh and takes over again if the service stops. On
+Bicameral, citation alerts also share the scrapers' dedupe tables
+(sitio.escribir), so the two never send the same alert twice.
 """
 from __future__ import annotations
 
@@ -22,7 +28,7 @@ from typing import Dict, List
 
 from servicio import db, fuentes as F
 from servicio.simular import alertas_de
-from servicio.sitio import escribir, guardar_marca, leer_listas, leer_marcas
+from servicio.sitio import escribir, guardar_marca, hay_registro_antiguo, leer_listas, leer_marcas
 
 logger = logging.getLogger(__name__)
 CERROJO = 7417026  # pg advisory lock key for one site's writer
@@ -38,6 +44,7 @@ class Servicio:
         self.contenido = contenido or db.contenido(solo_lectura=True)
         self.sitio = sitio or db.sitio(solo_lectura=simular)
         self.marcas: Dict[str, int] = {}
+        self.registro_antiguo = False
         self.enviadas = set()  # dry run only; writing mode uses alertas_enviadas
         self._listas, self._listas_en = None, 0.0
         self._proxima: Dict[str, float] = {}
@@ -50,13 +57,15 @@ class Servicio:
                 if not cur.fetchone()[0]:
                     raise RuntimeError("otra copia del servicio tiene el cerrojo de este sitio")
                 guardadas = leer_marcas(cur, [f.nombre for f in self.fuentes])
+                self.registro_antiguo = hay_registro_antiguo(cur)
         else:
             guardadas = {}
         with self.contenido.cursor() as cur:
             for f in self.fuentes:
                 # a source never seen starts at its newest row: no backfill of history
                 self.marcas[f.nombre] = guardadas.get(f.nombre, f.ultimo_id(cur))
-        logger.info("ALERTAS_INICIO simular=%s marcas=%s", self.simular, self.marcas)
+        logger.info("ALERTAS_INICIO simular=%s marcas=%s registro_antiguo=%s",
+                    self.simular, self.marcas, self.registro_antiguo)
 
     def listas(self):
         if self._listas is None or time.monotonic() - self._listas_en > self.refresco:
@@ -80,6 +89,9 @@ class Servicio:
         with self.contenido.cursor() as cur:
             lote, marca = f.leer(cur, self.marcas[f.nombre], LOTE, datetime.now(timezone.utc))
         if not lote:
+            if not self.simular:
+                with self.sitio.cursor() as cur:
+                    guardar_marca(cur, f.nombre, marca)  # the heartbeat the producers watch
             return 0
         listas = self.listas()
         alertas = [a for _, creado, item in lote for a in alertas_de(f.nombre, item, creado, listas)]
@@ -95,7 +107,7 @@ class Servicio:
                     {"fuente": f.nombre, "user_id": a.user_id, "regla": a.regla, "objetivo": a.objetivo,
                      "fila": a.fila}, ensure_ascii=False, default=str))
         else:
-            n = escribir(self.sitio, alertas)
+            n = escribir(self.sitio, alertas, registro_antiguo=self.registro_antiguo)
             with self.sitio.cursor() as cur:
                 guardar_marca(cur, f.nombre, marca)
         self.marcas[f.nombre] = marca

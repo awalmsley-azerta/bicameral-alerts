@@ -46,7 +46,7 @@ def alertas_de(fuente: str, item, creado: datetime, listas: Listas) -> List[Aler
 
 def recorrer(contenido_cur, listas: Listas, desde: datetime, hasta: Optional[datetime]) -> Corrida:
     corrida, enviadas = Corrida(), set()
-    for fuente in F.todas():
+    for fuente in F.todas(editadas=False):
         marca, n = fuente.primer_id_desde(contenido_cur, desde), 0
         while True:
             lote, nueva = fuente.leer(contenido_cur, marca, LOTE)
