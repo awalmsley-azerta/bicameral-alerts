@@ -66,6 +66,20 @@ The service takes over citation alerts from the citation scrapers.
 
 `ALERTAS_FUENTES=citaciones_senate,citaciones_camara,citaciones_senate_editadas,citaciones_camara_editadas`.
 
+### Step 3: every source
+
+The service produces every alert; the producers keep only content.
+
+- Boletín movements: `sql/boletin_movimientos.sql` (content side). The boletines
+  scraper writes a row each time a boletín's trámite count grows; the
+  `movimientos` source alerts its followers (`movimiento:<boletín>:<trámites>`).
+- Cutover without a gap: once a producer stops alerting at time T, run
+  `marcar --desde T <sources>` (Actions → Deploy → `marcar`), then add the sources
+  to `ALERTAS_FUENTES`. Each source starts at its first item from T on; a source
+  never marked starts at its newest row.
+- The backtest replays movements and compares them per follower and boletín, and
+  runs without the scrapers' citation dedupe tables once they are dropped.
+
 Tests: `ALERTAS_TEST_DSN=postgresql://postgres:prueba@localhost:55432/alertas`
 against a local `postgres:16-alpine` runs the database tests. Without it they are
 skipped. CI runs them against a service container.

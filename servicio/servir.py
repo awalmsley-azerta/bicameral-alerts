@@ -8,7 +8,9 @@ ALERTA_SIMULADA log line. Writing mode keeps the watermarks in alertas_estado
 and holds a Postgres advisory lock, so a second copy waits instead of doubling.
 
 Only the sources named in ALERTAS_FUENTES are read (all by default), so a
-cutover can move one source at a time.
+cutover can move one source at a time. A source never read before starts at its
+newest row; `marcar` sets an earlier start instead, so a cutover leaves no gap
+between the producer's last alert and the service's first.
 
 Handover: writing mode touches each source's alertas_estado row on every pass,
 even with nothing new. A producer that reads that row (the citation scrapers)
@@ -126,6 +128,23 @@ class Servicio:
                 time.sleep(self.intervalo_turnos)
             time.sleep(1)
         logger.info("ALERTAS_FIN marcas=%s", self.marcas)
+
+
+def marcar(contenido, sitio, nombres: List[str], desde: datetime) -> Dict[str, int]:
+    """Start each named source at its first item created at or after `desde`:
+    the moment its producer stopped alerting. Run before the source is added to
+    ALERTAS_FUENTES; a running service only rewrites the marks it reads."""
+    por_nombre = {f.nombre: f for f in F.todas()}
+    desconocidas = sorted(set(nombres) - set(por_nombre))
+    if desconocidas:
+        raise ValueError(f"fuentes desconocidas: {desconocidas} (válidas: {sorted(por_nombre)})")
+    marcas = {}
+    with contenido.cursor() as c, sitio.cursor() as s:
+        for n in nombres:
+            marcas[n] = por_nombre[n].primer_id_desde(c, desde)
+            guardar_marca(s, n, marcas[n])
+    logger.info("ALERTAS_MARCAS desde=%s marcas=%s", desde.isoformat(), marcas)
+    return marcas
 
 
 def nombres_de_entorno() -> List[str]:
