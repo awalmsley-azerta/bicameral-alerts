@@ -37,7 +37,7 @@ def _conn():
 
 
 def _cargar(cur):
-    cur.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public")
+    cur.execute("DROP SCHEMA IF EXISTS jurispeed CASCADE; DROP SCHEMA public CASCADE; CREATE SCHEMA public")
     cur.execute((RAIZ / "tests" / "esquema_prueba.sql").read_text())
     cur.execute((RAIZ / "sql" / "alertas_sitio.sql").read_text())
     cur.execute((RAIZ / "sql" / "citaciones_editadas.sql").read_text())
@@ -373,3 +373,69 @@ def test_el_backtest_sigue_sin_los_registros_de_los_scrapers(base):
     assert "movimiento" not in informe["conteo"]
     assert set(informe["conteo"]["palabra"]) == {"igual"}
 
+
+
+# -- another site sharing the database, in its own schema ---------------------------
+
+ESQUEMA_JURISPEED = """
+CREATE TABLE jurispeed.keywords (id INTEGER PRIMARY KEY, user_id INTEGER, keyword VARCHAR, type VARCHAR,
+    match_type VARCHAR, email_enabled BOOLEAN DEFAULT TRUE, created_at TIMESTAMP DEFAULT NOW());
+CREATE TABLE jurispeed.user_tracked_boletines (user_id INTEGER, boletin VARCHAR, alert_on_mentions BOOLEAN,
+    PRIMARY KEY (user_id, boletin));
+CREATE TABLE jurispeed.notifications (id SERIAL PRIMARY KEY, user_id INTEGER, keyword_id INTEGER,
+    type VARCHAR, related_id INTEGER, chamber VARCHAR, message TEXT, boletin VARCHAR, origin VARCHAR,
+    target_type VARCHAR, target_id INTEGER, target_chamber VARCHAR, target_boletin VARCHAR,
+    created_at TIMESTAMP DEFAULT NOW());
+INSERT INTO jurispeed.keywords (id, user_id, keyword, type, match_type) VALUES
+    (1, 77, 'subrogación', 'citation', 'exact');
+"""
+
+
+def _conn_esquema(esquema):
+    import psycopg2
+    c = psycopg2.connect(DSN, options=f"-c search_path={esquema},public")
+    c.autocommit = True
+    return c
+
+
+def _contar(cur, tabla):
+    cur.execute(f"SELECT COUNT(*) FROM {tabla}")
+    return cur.fetchone()[0]
+
+
+def test_otro_sitio_en_su_esquema_no_toca_lo_de_bicameral(base, monkeypatch):
+    c, _ = base
+    with c.cursor() as cur:
+        cur.execute("CREATE SCHEMA jurispeed")
+    # without its own tables it would read and write Bicameral's: it refuses to start
+    with pytest.raises(RuntimeError, match="faltan tablas"):
+        Servicio(False, CITAS, 60, 5, contenido=_conn(), sitio=_conn_esquema("jurispeed")).preparar()
+    with c.cursor() as cur:
+        cur.execute(ESQUEMA_JURISPEED)
+    # its tables carry its own names: without the setting it would look for Bicameral's
+    with pytest.raises(RuntimeError, match="bicameral_keywords"):
+        Servicio(False, CITAS, 60, 5, contenido=_conn(), sitio=_conn_esquema("jurispeed")).preparar()
+    with c.cursor() as cur:
+        cur.execute("SET search_path = jurispeed, public")
+        cur.execute((RAIZ / "sql" / "alertas_sitio.sql").read_text())
+        cur.execute("SET search_path = public")
+        _citacion_nueva(cur, 401, "Proyecto sobre subrogación de cargos")
+        antes = {t: _contar(cur, f"public.{t}") for t in
+                 ("bicameral_notifications", "alertas_enviadas", "citation_keyword_notification_sent")}
+
+    bicameral = _escritor()  # holds Bicameral's lock; the other site must still start
+    monkeypatch.setenv("SITIO_TABLAS_SIN_PREFIJO", "1")  # from here on, this process is the other site
+    jurispeed = Servicio(False, CITAS, 60, 5, contenido=_conn(), sitio=_conn_esquema("jurispeed"))
+    jurispeed.preparar()
+    assert bicameral.registro_antiguo and not jurispeed.registro_antiguo
+    jurispeed.marcas["citaciones_camara"] = 400
+    assert jurispeed.una_pasada(ahora=1e9) == 1
+
+    with c.cursor() as cur:
+        cur.execute("SELECT user_id, keyword_id, target_id FROM jurispeed.notifications")
+        assert cur.fetchall() == [(77, 1, 401)]
+        assert _contar(cur, "jurispeed.alertas_enviadas") == 1
+        cur.execute("SELECT fuente FROM jurispeed.alertas_estado ORDER BY 1")
+        assert [r[0] for r in cur.fetchall()] == sorted(CITAS)
+        for t, n in antes.items():
+            assert _contar(cur, f"public.{t}") == n, t

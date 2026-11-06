@@ -30,10 +30,11 @@ from typing import Dict, List
 
 from servicio import db, fuentes as F
 from servicio.simular import alertas_de
-from servicio.sitio import escribir, guardar_marca, hay_registro_antiguo, leer_listas, leer_marcas
+from servicio.sitio import (comprobar_esquema, escribir, guardar_marca, hay_registro_antiguo, leer_listas,
+                            leer_marcas)
 
 logger = logging.getLogger(__name__)
-CERROJO = 7417026  # pg advisory lock key for one site's writer
+CERROJO = 7417026  # pg advisory lock key for one site's writer, with its schema as the second key
 LOTE = 200
 
 
@@ -55,9 +56,11 @@ class Servicio:
     def preparar(self) -> None:
         if not self.simular:
             with self.sitio.cursor() as cur:
-                cur.execute("SELECT pg_try_advisory_lock(%s)", (CERROJO,))
+                # sites sharing one database (one schema each) must not block each other
+                cur.execute("SELECT pg_try_advisory_lock(%s, hashtext(current_schema()))", (CERROJO,))
                 if not cur.fetchone()[0]:
                     raise RuntimeError("otra copia del servicio tiene el cerrojo de este sitio")
+                comprobar_esquema(cur)
                 guardadas = leer_marcas(cur, [f.nombre for f in self.fuentes])
                 self.registro_antiguo = hay_registro_antiguo(cur)
         else:

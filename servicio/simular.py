@@ -21,7 +21,7 @@ from typing import Dict, List, Optional, Tuple
 
 from alertas import Alerta, alertas_citacion, alertas_movimiento, alertas_sesion, alertas_turno
 from servicio import fuentes as F
-from servicio.sitio import Listas, hay_registro_antiguo, leer_listas, utc
+from servicio.sitio import Listas, hay_registro_antiguo, leer_listas, tabla, utc
 
 logger = logging.getLogger(__name__)
 LOTE = 500
@@ -118,13 +118,13 @@ def notificaciones_antiguas(sitio_cur, corrida: Corrida) -> List[dict]:
             params.append(utc(corrida.hasta).replace(tzinfo=None))
         consultas.append((donde, tuple(params)))
     for donde, params in consultas:
-        sitio_cur.execute(f"SELECT {', '.join(columnas)} FROM bicameral_notifications WHERE {donde}", params)
+        sitio_cur.execute(f"SELECT {', '.join(columnas)} FROM {tabla('notifications')} WHERE {donde}", params)
         filas += [dict(zip(columnas, f)) for f in sitio_cur.fetchall()]
     return filas
 
 
 def _motivos(sitio_cur) -> dict:
-    sitio_cur.execute("SELECT id FROM bicameral_keywords")
+    sitio_cur.execute(f"SELECT id FROM {tabla('keywords')}")
     palabras = {r[0] for r in sitio_cur.fetchall()}
     sitio_cur.execute("SELECT user_id, boletin, COALESCE(alert_on_mentions, FALSE) FROM user_tracked_boletines")
     seguidos = {(u, b): m for u, b, m in sitio_cur.fetchall()}
