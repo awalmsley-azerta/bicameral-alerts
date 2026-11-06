@@ -46,6 +46,13 @@ they need the `boletin_movimientos` table that comes with their cutover.
 Connections: `DB_*` / `DB_SECRET_JSON` for the content, `SITIO_DB_*` for the site,
 defaulting to the same database, as for Bicameral.
 
+Another site can share the Bicameral database in its own schema:
+`SITIO_DB_ESQUEMA=jurispeed` searches `jurispeed` first and `public` (the content)
+after it. The writer refuses to start unless every site table (watchlists,
+notifications, `alertas_*`) is in that schema, so it can never fall through to
+Bicameral's. Each schema takes its own writer lock, and the scrapers' citation
+dedupe tables are only used when they are in the site's own schema.
+
 ### Step 2: citations
 
 The service takes over citation alerts from the citation scrapers.

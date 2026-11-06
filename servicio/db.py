@@ -2,7 +2,9 @@
 database (its users' watchlists and notifications).
 
 For Bicameral both are the same Aurora database, so SITIO_DB_* defaults to the
-DB_* values. The joint site will set its own.
+DB_* values. Another site may share that database with its own schema
+(SITIO_DB_ESQUEMA): its connection then searches that schema first, and public
+(the content) after it.
 """
 from __future__ import annotations
 
@@ -27,11 +29,21 @@ def _datos(prefijo: str, respaldo: str | None = None) -> dict:
     }
 
 
+def _opciones(prefijo: str) -> dict:
+    esquema = (os.getenv(f"{prefijo}ESQUEMA") or "").strip()
+    if not esquema:
+        return {}
+    if not esquema.replace("_", "").isalnum() or not esquema[0].isalpha():
+        raise ValueError(f"{prefijo}ESQUEMA no es un nombre de esquema válido: {esquema!r}")
+    return {"options": f"-c search_path={esquema},public"}
+
+
 def conectar(prefijo: str = "DB_", respaldo: str | None = None, *, solo_lectura: bool = False):
     """A psycopg2 connection. With solo_lectura every transaction is READ ONLY,
     so a dry run cannot write even by mistake."""
     import psycopg2
-    conn = psycopg2.connect(connect_timeout=10, application_name="bicameral-alertas", **_datos(prefijo, respaldo))
+    conn = psycopg2.connect(connect_timeout=10, application_name="bicameral-alertas", **_datos(prefijo, respaldo),
+                            **_opciones(prefijo))
     conn.autocommit = True
     if solo_lectura:
         with conn.cursor() as cur:

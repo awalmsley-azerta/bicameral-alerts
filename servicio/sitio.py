@@ -69,12 +69,33 @@ def _transaccion(conn):
         cur.execute("COMMIT")
 
 
-def hay_registro_antiguo(cur) -> bool:
-    """Whether this site still has the citation scrapers' dedupe tables
-    (Bicameral, until its citation alerts are fully handed over)."""
-    cur.execute("SELECT to_regclass('citation_keyword_notification_sent') IS NOT NULL "
-                "AND to_regclass('citation_boletin_notification_sent') IS NOT NULL")
+# The site tables the writer uses, unqualified. A site that shares the Bicameral
+# database keeps them in its own schema (search_path=<schema>,public); each must
+# be there, or the name would resolve to Bicameral's table in public.
+TABLAS_SITIO = ("bicameral_keywords", "user_tracked_boletines", "bicameral_notifications",
+                "alertas_enviadas", "alertas_estado")
+
+
+def _en_mi_esquema(cur, tabla: str) -> bool:
+    cur.execute("SELECT to_regclass(quote_ident(current_schema()) || '.' || %s) IS NOT NULL", (tabla,))
     return bool(cur.fetchone()[0])
+
+
+def comprobar_esquema(cur) -> None:
+    """Refuse to write unless every site table is in this site's own schema."""
+    faltan = [t for t in TABLAS_SITIO if not _en_mi_esquema(cur, t)]
+    if faltan:
+        cur.execute("SELECT current_schema()")
+        raise RuntimeError(f"faltan tablas del sitio en el esquema {cur.fetchone()[0]}: {faltan} "
+                           f"(sql/alertas_sitio.sql y las tablas de usuarios del sitio)")
+
+
+def hay_registro_antiguo(cur) -> bool:
+    """Whether this site still has the citation scrapers' dedupe tables in its
+    own schema (Bicameral, until they are dropped). Another site sharing the
+    database never sees Bicameral's."""
+    return (_en_mi_esquema(cur, "citation_keyword_notification_sent")
+            and _en_mi_esquema(cur, "citation_boletin_notification_sent"))
 
 
 def _cita_antigua(a: Alerta) -> Optional[tuple]:
