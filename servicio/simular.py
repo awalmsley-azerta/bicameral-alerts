@@ -6,8 +6,9 @@ that item, so today's watchlists approximate the ones of the time. What cannot
 be reconstructed (keywords since deleted, notifications users deleted) is
 reported as such, not as a mismatch.
 
-Boletín movements are not replayed: the scraper keeps no record of them yet, so
-their notifications are only counted.
+Boletín movements are replayed from boletin_movimientos once it has rows (the
+scraper writes it from its cutover on) and compared as counts per follower and
+boletín, as plenaries are: a movement's notification names no item.
 """
 from __future__ import annotations
 
@@ -18,9 +19,9 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 
-from alertas import Alerta, alertas_citacion, alertas_sesion, alertas_turno
+from alertas import Alerta, alertas_citacion, alertas_movimiento, alertas_sesion, alertas_turno
 from servicio import fuentes as F
-from servicio.sitio import Listas, leer_listas, utc
+from servicio.sitio import Listas, hay_registro_antiguo, leer_listas, utc
 
 logger = logging.getLogger(__name__)
 LOTE = 500
@@ -32,6 +33,9 @@ class Corrida:
     alertas: List[Tuple[str, Alerta]] = field(default_factory=list)  # (source, alert)
     items: Dict[str, List[int]] = field(default_factory=lambda: defaultdict(list))
     plenarios: Dict[str, set] = field(default_factory=lambda: defaultdict(set))  # chamber -> plenary ids
+    boletines: set = field(default_factory=set)  # boletines that moved
+    desde: Optional[datetime] = None
+    hasta: Optional[datetime] = None
 
 
 def alertas_de(fuente: str, item, creado: datetime, listas: Listas) -> List[Alerta]:
@@ -41,12 +45,17 @@ def alertas_de(fuente: str, item, creado: datetime, listas: Listas) -> List[Aler
     if fuente.startswith("citaciones_"):
         # the producers compared the citation date with the day they ran
         return alertas_citacion(item, palabras, listas.seguidores, listas.titulos, utc(creado).date())
+    if fuente == "movimientos":
+        return alertas_movimiento(item, listas.seguidores, listas.titulos.get(item.boletin))
     return alertas_turno(item, palabras)
 
 
 def recorrer(contenido_cur, listas: Listas, desde: datetime, hasta: Optional[datetime]) -> Corrida:
-    corrida, enviadas = Corrida(), set()
+    corrida, enviadas = Corrida(desde=desde, hasta=hasta), set()
     for fuente in F.todas(editadas=False):
+        if not fuente.existe(contenido_cur):
+            logger.info("backtest %s: no table yet", fuente.nombre)
+            continue
         marca, n = fuente.primer_id_desde(contenido_cur, desde), 0
         while True:
             lote, nueva = fuente.leer(contenido_cur, marca, LOTE)
@@ -60,6 +69,8 @@ def recorrer(contenido_cur, listas: Listas, desde: datetime, hasta: Optional[dat
                 n += 1
                 if fuente.nombre == "turnos":
                     corrida.plenarios[item.camara].add(item.plenario_id)
+                elif fuente.nombre == "movimientos":
+                    corrida.boletines.add(item.boletin)
                 else:
                     corrida.items[fuente.nombre].append(id_)
                 for a in alertas_de(fuente.nombre, item, creado, listas):
@@ -81,7 +92,7 @@ def _clave(f: dict) -> Optional[tuple]:
     if f["type"] == "plenary":
         return ("plenario", f["user_id"], f["keyword_id"], f["target_chamber"], f["target_id"])
     if f.get("origin") == "boletin_movement":
-        return None
+        return ("movimiento", f["user_id"], f["target_boletin"])
     if f.get("keyword_id") is not None:
         return ("palabra", f["user_id"], f["keyword_id"], f["target_type"], f["target_chamber"], f["target_id"])
     return ("mencion", f["user_id"], f.get("boletin"), f["target_type"], f["target_chamber"], f["target_id"])
@@ -98,6 +109,14 @@ def notificaciones_antiguas(sitio_cur, corrida: Corrida) -> List[dict]:
                           ("session" if tipo == "sesiones" else "citation", camara, ids)))
     for camara, plenarios in corrida.plenarios.items():
         consultas.append(("type = 'plenary' AND target_chamber = %s AND target_id = ANY(%s)", (camara, list(plenarios))))
+    if corrida.boletines:
+        # a movement's notification names only its boletín: take the window's
+        donde = "origin = 'boletin_movement' AND target_boletin = ANY(%s) AND created_at >= %s"
+        params = [sorted(corrida.boletines), utc(corrida.desde).replace(tzinfo=None)]
+        if corrida.hasta is not None:
+            donde += " AND created_at < %s"
+            params.append(utc(corrida.hasta).replace(tzinfo=None))
+        consultas.append((donde, tuple(params)))
     for donde, params in consultas:
         sitio_cur.execute(f"SELECT {', '.join(columnas)} FROM bicameral_notifications WHERE {donde}", params)
         filas += [dict(zip(columnas, f)) for f in sitio_cur.fetchall()]
@@ -109,17 +128,19 @@ def _motivos(sitio_cur) -> dict:
     palabras = {r[0] for r in sitio_cur.fetchall()}
     sitio_cur.execute("SELECT user_id, boletin, COALESCE(alert_on_mentions, FALSE) FROM user_tracked_boletines")
     seguidos = {(u, b): m for u, b, m in sitio_cur.fetchall()}
-    sitio_cur.execute("SELECT user_id, keyword_id, citation_id FROM citation_keyword_notification_sent")
-    cit_kw = set(sitio_cur.fetchall())
-    sitio_cur.execute("SELECT user_id, citation_id, boletin FROM citation_boletin_notification_sent")
-    cit_bol = set(sitio_cur.fetchall())
+    cit_kw, cit_bol = set(), set()
+    if hay_registro_antiguo(sitio_cur):  # the citation scrapers' dedupe, while it is kept
+        sitio_cur.execute("SELECT user_id, keyword_id, citation_id FROM citation_keyword_notification_sent")
+        cit_kw = set(sitio_cur.fetchall())
+        sitio_cur.execute("SELECT user_id, citation_id, boletin FROM citation_boletin_notification_sent")
+        cit_bol = set(sitio_cur.fetchall())
     return {"palabras": palabras, "seguidos": seguidos, "cit_kw": cit_kw, "cit_bol": cit_bol}
 
 
 def _solo_antes(k: tuple, m: dict) -> str:
     if k[0] in ("palabra", "plenario") and k[2] not in m["palabras"]:
         return "palabra_borrada"
-    if k[0] == "mencion" and (k[1], k[2]) not in m["seguidos"]:
+    if k[0] in ("mencion", "movimiento") and (k[1], k[2]) not in m["seguidos"]:
         return "dejo_de_seguir"
     return "sin_explicar"
 
@@ -138,13 +159,8 @@ def comparar(sitio_cur, corrida: Corrida) -> dict:
     antiguas = notificaciones_antiguas(sitio_cur, corrida)
     motivos = _motivos(sitio_cur)
     viejo, nuevo = defaultdict(list), defaultdict(list)
-    movimientos = 0
     for f in antiguas:
-        k = _clave(f)
-        if k is None:
-            movimientos += 1
-        else:
-            viejo[k].append(f)
+        viejo[_clave(f)].append(f)
     for _, a in corrida.alertas:
         nuevo[_clave(a.fila)].append(a.fila)
 
@@ -159,7 +175,7 @@ def comparar(sitio_cur, corrida: Corrida) -> dict:
     for k in sorted(set(viejo) | set(nuevo), key=str):
         v, n = viejo.get(k, []), nuevo.get(k, [])
         if v and n:
-            if k[0] == "plenario":
+            if k[0] in ("plenario", "movimiento"):
                 anotar("igual" if len(v) == len(n) else "distinto_numero", k, len(v), len(n))
                 continue
             if len(v) > 1:
@@ -176,10 +192,10 @@ def comparar(sitio_cur, corrida: Corrida) -> dict:
 
     return {
         "items": {k: len(v) for k, v in corrida.items.items()} | {
-            f"plenarios_{c}": len(p) for c, p in corrida.plenarios.items()},
-        "notificaciones_antes": len(antiguas) - movimientos,
+            f"plenarios_{c}": len(p) for c, p in corrida.plenarios.items()} | (
+            {"boletines_movidos": len(corrida.boletines)} if corrida.boletines else {}),
+        "notificaciones_antes": len(antiguas),
         "alertas_ahora": len(corrida.alertas),
-        "movimientos_no_comparados": movimientos,
         "conteo": {t: dict(c) for t, c in conteo.items()},
         "ejemplos": dict(ejemplos),
     }
@@ -203,8 +219,6 @@ def resumen(informe: dict) -> str:
               f"{informe.get('alertas_ahora')} alertas ahora, {informe.get('notificaciones_antes', '?')} antes"]
     for tipo, cats in informe.get("conteo", {}).items():
         lineas.append(f"  {tipo}: " + ", ".join(f"{c}={n}" for c, n in sorted(cats.items())))
-    if informe.get("movimientos_no_comparados"):
-        lineas.append(f"  movimientos no comparados: {informe['movimientos_no_comparados']}")
     return "\n".join(lineas)
 
 

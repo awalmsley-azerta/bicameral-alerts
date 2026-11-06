@@ -41,6 +41,7 @@ def _cargar(cur):
     cur.execute((RAIZ / "tests" / "esquema_prueba.sql").read_text())
     cur.execute((RAIZ / "sql" / "alertas_sitio.sql").read_text())
     cur.execute((RAIZ / "sql" / "citaciones_editadas.sql").read_text())
+    cur.execute((RAIZ / "sql" / "boletin_movimientos.sql").read_text())
     for id_, user, kw, mt, tipo in casos.PALABRAS:
         cur.execute("INSERT INTO bicameral_keywords VALUES (%s,%s,%s,%s,%s,TRUE,'2026-01-01')", (id_, user, kw, tipo, mt))
     for user, bol in casos.SEGUIDORES:
@@ -294,3 +295,81 @@ def test_si_falla_la_notificacion_no_queda_como_enviada(base):
         assert cur.fetchone()[0] == 0
         cur.execute("SELECT COUNT(*) FROM citation_keyword_notification_sent WHERE citation_id = 402")
         assert cur.fetchone()[0] == 0
+
+
+# -- every source: boletín movements and cutover marks ------------------------------
+
+def _movimiento(cur, boletin, antes, despues, creado=None):
+    cur.execute("INSERT INTO boletin_movimientos (boletin, tramites_antes, tramites_despues, created_at) "
+                "VALUES (%s, %s, %s, COALESCE(%s, NOW())) RETURNING id", (boletin, antes, despues, creado))
+    return cur.fetchone()[0]
+
+
+def test_un_movimiento_alerta_a_cada_seguidor_una_vez(base):
+    c, _ = base
+    serv = Servicio(False, ["movimientos"], 60, 5, contenido=_conn(), sitio=_conn())
+    serv.preparar()
+    with c.cursor() as cur:
+        cur.execute("SELECT COUNT(*) FROM bicameral_notifications")
+        antes = cur.fetchone()[0]
+        _movimiento(cur, "15222-06", 3, 4)   # followed by users 1 and 3
+        _movimiento(cur, "17662-07", 0, 2)   # first count seen: baseline only
+        _movimiento(cur, "11111-11", 1, 2)   # nobody follows it
+    assert serv.una_pasada(ahora=1e9) == 2
+    with c.cursor() as cur:
+        cur.execute("SELECT user_id, origin, target_boletin, message FROM bicameral_notifications "
+                    "WHERE id > 0 ORDER BY id DESC LIMIT 2")
+        filas = sorted(cur.fetchall())
+        assert [(u, o, b) for u, o, b, _ in filas] == [(1, "boletin_movement", "15222-06"),
+                                                       (3, "boletin_movement", "15222-06")]
+        assert filas[0][3].startswith("Nuevo movimiento en boletín 15222-06\nProyecto: «Modifica")
+        cur.execute("SELECT COUNT(*) FROM bicameral_notifications")
+        assert cur.fetchone()[0] == antes + 2
+    # the same movement read again (a restart before the mark was kept) sends nothing
+    serv.marcas["movimientos"] = 0
+    serv._proxima.clear()
+    assert serv.una_pasada(ahora=2e9) == 0
+
+
+def test_marcar_empieza_en_lo_que_el_productor_ya_no_alerto(base):
+    from datetime import timedelta
+    from servicio.servir import marcar
+    c, _ = base
+    with c.cursor() as cur:
+        viejo = _movimiento(cur, "15222-06", 3, 4, _hace(120))   # the scraper alerted this one
+        nuevo = _movimiento(cur, "15222-06", 4, 5, _hace(30))    # after it stopped
+    marcas = marcar(_conn(), _conn(), ["movimientos"], _hace(60))
+    assert marcas == {"movimientos": viejo}
+    serv = Servicio(False, ["movimientos"], 60, 5, contenido=_conn(), sitio=_conn())
+    serv.preparar()
+    assert serv.marcas["movimientos"] == viejo  # kept, not reset to the newest row
+    assert serv.una_pasada(ahora=1e9) == 2      # only the 4 -> 5 movement, for users 1 and 3
+    with c.cursor() as cur:
+        cur.execute("SELECT DISTINCT regla FROM alertas_enviadas")
+        assert [r[0] for r in cur.fetchall()] == ["movimiento:15222-06:5"]
+    with pytest.raises(ValueError):
+        marcar(_conn(), _conn(), ["no_existe"], _hace(60))
+
+
+def test_el_backtest_compara_los_movimientos(base):
+    c, _ = base
+    with c.cursor() as cur:
+        _movimiento(cur, "15222-06", 3, 4, VENTANA)
+        for user in (1, 3):  # what the scraper wrote for it
+            cur.execute("INSERT INTO bicameral_notifications (user_id, type, related_id, chamber, message, boletin, "
+                        "origin, target_type, target_boletin, created_at) VALUES (%s, 'boletin', 0, 'senate', 'm', "
+                        "'15222-06', 'boletin_movement', 'boletin', '15222-06', %s)", (user, VENTANA))
+    informe = backtest(_ro(), _ro(), _desde(), None)
+    assert informe["conteo"]["movimiento"] == {"igual": 2}
+    assert informe["items"]["boletines_movidos"] == 1
+
+
+def test_el_backtest_sigue_sin_los_registros_de_los_scrapers(base):
+    c, _ = base
+    with c.cursor() as cur:
+        cur.execute("DROP TABLE citation_keyword_notification_sent, citation_boletin_notification_sent, "
+                    "boletin_movimientos")
+    informe = backtest(_ro(), _ro(), _desde(), None)
+    assert "movimiento" not in informe["conteo"]
+    assert set(informe["conteo"]["palabra"]) == {"igual"}
+

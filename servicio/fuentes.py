@@ -7,8 +7,8 @@ so a run never needs a queue or a change to the producers. Every source yields
 Citations are also re-read when they are edited (sql/citaciones_editadas.sql
 stamps updated_at), as the scrapers re-check an edited citation today.
 
-Boletín movements are not a source yet: the scraper still notifies directly
-and keeps no record of movements (boletin_movimientos comes with its cutover).
+Boletín movements come from boletin_movimientos (sql/boletin_movimientos.sql),
+one row per trámite-count increase the boletines scraper sees.
 """
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Callable, List, Optional, Tuple
 
-from alertas import Citacion, Sesion, Turno
+from alertas import Citacion, Movimiento, Sesion, Turno
 from servicio.sitio import utc
 
 # A session row written without its analysis waits this long for it before it is
@@ -57,6 +57,11 @@ class Fuente:
     def ultimo_id(self, cur) -> int:
         cur.execute(f"SELECT COALESCE(MAX(id), 0) FROM {self.tabla}")
         return cur.fetchone()[0]
+
+    def existe(self, cur) -> bool:
+        """Whether its table is there (boletin_movimientos comes with its own SQL)."""
+        cur.execute("SELECT to_regclass(%s) IS NOT NULL", (self.tabla,))
+        return bool(cur.fetchone()[0])
 
 
 def _us(t: datetime) -> int:
@@ -124,6 +129,11 @@ def _citacion(camara):
     return armar
 
 
+def _movimiento(f):
+    _id, boletin, antes, despues, _creado = f
+    return Movimiento(boletin=boletin, antes=int(antes), despues=int(despues))
+
+
 def _turno(f):
     id_, camara, plenario, inicio, texto, _creado = f
     return Turno(plenario_id=plenario, camara=camara, texto=texto or "", inicio_s=float(inicio or 0))
@@ -154,6 +164,10 @@ def todas(editadas: bool = True) -> List[Fuente]:
         "turnos", "plenary_turns",
         "SELECT id, chamber, plenary_id, start_seconds, text, created_at FROM plenary_turns "
         "WHERE id > %s ORDER BY id LIMIT %s", _turno))
+    fuentes.append(Fuente(
+        "movimientos", "boletin_movimientos",
+        "SELECT id, boletin, tramites_antes, tramites_despues, created_at FROM boletin_movimientos "
+        "WHERE id > %s ORDER BY id LIMIT %s", _movimiento))
     if editadas:
         for c in ("senate", "camara"):
             fuentes.append(FuenteEditadas(
