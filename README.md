@@ -53,6 +53,11 @@ notifications, `alertas_*`) is in that schema, so it can never fall through to
 Bicameral's. Each schema takes its own writer lock, and the scrapers' citation
 dedupe tables are only used when they are in the site's own schema.
 
+A site with its own database (Jurispeed) points `SITIO_DB_*` at it and keeps
+`DB_*` for Bicameral's content, read only. If its tables carry their own names
+(`keywords`, `notifications` instead of `bicameral_keywords`,
+`bicameral_notifications`), it sets `SITIO_TABLAS_SIN_PREFIJO=1`.
+
 ### Step 2: citations
 
 The service takes over citation alerts from the citation scrapers.

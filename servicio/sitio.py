@@ -7,6 +7,7 @@ re-run over the same ids or a user deleting the notification never re-sends it.
 """
 from __future__ import annotations
 
+import os
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -35,8 +36,16 @@ def utc(t: datetime) -> datetime:
     return t if t.tzinfo else t.replace(tzinfo=timezone.utc)
 
 
+def tabla(nombre: str) -> str:
+    """A site table. Bicameral's carry its name (bicameral_keywords,
+    bicameral_notifications); a site with its own names (Jurispeed: keywords,
+    notifications) sets SITIO_TABLAS_SIN_PREFIJO=1."""
+    sin_prefijo = os.getenv("SITIO_TABLAS_SIN_PREFIJO", "").lower() in ("1", "true", "si", "sí")
+    return nombre if sin_prefijo else f"bicameral_{nombre}"
+
+
 def leer_listas(sitio_cur, contenido_cur) -> Listas:
-    sitio_cur.execute("SELECT id, user_id, keyword, match_type, type, created_at FROM bicameral_keywords ORDER BY id")
+    sitio_cur.execute(f"SELECT id, user_id, keyword, match_type, type, created_at FROM {tabla('keywords')} ORDER BY id")
     palabras, creadas = [], {}
     for id_, user_id, keyword, match_type, tipo, creado in sitio_cur.fetchall():
         palabras.append(Palabra(id_, user_id, keyword, match_type, tipo))
@@ -72,8 +81,8 @@ def _transaccion(conn):
 # The site tables the writer uses, unqualified. A site that shares the Bicameral
 # database keeps them in its own schema (search_path=<schema>,public); each must
 # be there, or the name would resolve to Bicameral's table in public.
-TABLAS_SITIO = ("bicameral_keywords", "user_tracked_boletines", "bicameral_notifications",
-                "alertas_enviadas", "alertas_estado")
+def tablas_sitio() -> tuple:
+    return (tabla("keywords"), "user_tracked_boletines", tabla("notifications"), "alertas_enviadas", "alertas_estado")
 
 
 def _en_mi_esquema(cur, tabla: str) -> bool:
@@ -83,7 +92,7 @@ def _en_mi_esquema(cur, tabla: str) -> bool:
 
 def comprobar_esquema(cur) -> None:
     """Refuse to write unless every site table is in this site's own schema."""
-    faltan = [t for t in TABLAS_SITIO if not _en_mi_esquema(cur, t)]
+    faltan = [t for t in tablas_sitio() if not _en_mi_esquema(cur, t)]
     if faltan:
         cur.execute("SELECT current_schema()")
         raise RuntimeError(f"faltan tablas del sitio en el esquema {cur.fetchone()[0]}: {faltan} "
@@ -155,7 +164,7 @@ def escribir(conn, alertas: Iterable[Alerta], registro_antiguo: bool = False) ->
             if cita and _ya_en_registro_antiguo(cur, cita):
                 continue  # the scraper sent it; alertas_enviadas now remembers that too
             cur.execute(
-                f"INSERT INTO bicameral_notifications ({', '.join(cols)}, created_at) "
+                f"INSERT INTO {tabla('notifications')} ({', '.join(cols)}, created_at) "
                 f"VALUES ({', '.join(['%s'] * len(cols))}, TIMEZONE('utc', NOW())) RETURNING id",
                 [a.fila[c] for c in cols])
             nid = cur.fetchone()[0]
