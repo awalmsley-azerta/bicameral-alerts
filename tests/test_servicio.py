@@ -439,3 +439,30 @@ def test_otro_sitio_en_su_esquema_no_toca_lo_de_bicameral(base, monkeypatch):
         assert [r[0] for r in cur.fetchall()] == sorted(CITAS)
         for t, n in antes.items():
             assert _contar(cur, f"public.{t}") == n, t
+
+
+def test_con_plan_solo_alertan_quienes_lo_tienen(base, monkeypatch):
+    """A site with plans (Jurispeed) alerts only users whose current plan
+    includes alerts; the rest keep their lists, silent."""
+    c, _ = base
+    with c.cursor() as cur:
+        cur.execute("SELECT DISTINCT user_id FROM bicameral_keywords ORDER BY 1")
+        usuarios = [r[0] for r in cur.fetchall()]
+        assert len(usuarios) >= 2
+        con, sin = usuarios[0], usuarios[1:]
+        cur.execute("CREATE TABLE bicameral_users (id INTEGER PRIMARY KEY, capabilities TEXT[] NOT NULL DEFAULT '{}', "
+                    "perfil_evaluado_at TIMESTAMPTZ)")
+        cur.execute("INSERT INTO bicameral_users VALUES (%s, ARRAY['congreso','boletin'], NOW())", (con,))
+        for i, u in enumerate(sin):
+            # one without the capability, one with it but stale, the rest never evaluated
+            if i == 0:
+                cur.execute("INSERT INTO bicameral_users VALUES (%s, ARRAY['congreso'], NOW())", (u,))
+            elif i == 1:
+                cur.execute("INSERT INTO bicameral_users VALUES (%s, ARRAY['boletin'], NOW() - INTERVAL '31 days')", (u,))
+        todas = leer_listas(cur, cur)
+        monkeypatch.setenv("SITIO_CAPACIDAD_ALERTAS", "boletin")
+        filtradas = leer_listas(cur, cur)
+        cur.execute("DROP TABLE bicameral_users")
+    assert {p.user_id for p in todas.palabras} == set(usuarios)
+    assert {p.user_id for p in filtradas.palabras} == {con}
+    assert {s.user_id for s in filtradas.seguidores} <= {con}

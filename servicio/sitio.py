@@ -44,14 +44,33 @@ def tabla(nombre: str) -> str:
     return nombre if sin_prefijo else f"bicameral_{nombre}"
 
 
+def capacidad_alertas() -> str:
+    """SITIO_CAPACIDAD_ALERTAS: a site whose users have plans (Jurispeed) names
+    the capability that includes alerts ("boletin"). Then only users whose plan
+    has it, re-evaluated within 30 days (the webapp's rule), get alerts; the
+    others keep their keywords and followed bills, silent. Unset (Bicameral):
+    every user."""
+    return os.getenv("SITIO_CAPACIDAD_ALERTAS", "").strip()
+
+
+def _solo_con_plan() -> tuple:
+    capacidad = capacidad_alertas()
+    if not capacidad:
+        return "", ()
+    return (f" WHERE user_id IN (SELECT id FROM {tabla('users')} WHERE %s = ANY(capabilities)"
+            " AND perfil_evaluado_at > NOW() - INTERVAL '30 days')", (capacidad,))
+
+
 def leer_listas(sitio_cur, contenido_cur) -> Listas:
-    sitio_cur.execute(f"SELECT id, user_id, keyword, match_type, type, created_at FROM {tabla('keywords')} ORDER BY id")
+    donde, params = _solo_con_plan()
+    sitio_cur.execute(f"SELECT id, user_id, keyword, match_type, type, created_at FROM {tabla('keywords')}{donde}"
+                      " ORDER BY id", params)
     palabras, creadas = [], {}
     for id_, user_id, keyword, match_type, tipo, creado in sitio_cur.fetchall():
         palabras.append(Palabra(id_, user_id, keyword, match_type, tipo))
         if creado is not None:
             creadas[id_] = creado
-    sitio_cur.execute("SELECT user_id, boletin FROM user_tracked_boletines ORDER BY user_id, boletin")
+    sitio_cur.execute(f"SELECT user_id, boletin FROM user_tracked_boletines{donde} ORDER BY user_id, boletin", params)
     seguidores = [Seguimiento(u, b) for u, b in sitio_cur.fetchall()]
     titulos: Dict[str, str] = {}
     boletines = sorted({s.boletin for s in seguidores})
